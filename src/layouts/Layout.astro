@@ -1,0 +1,140 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | うちのこ漢方</title>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+        background-color: #F7FAF4;
+        color: #3a3a3a;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.7;
+      }
+
+      header {
+        background-color: #5C8A3C;
+        padding: 0.75rem 1.5rem;
+        box-shadow: 0 2px 6px rgba(92, 138, 60, 0.3);
+      }
+
+      .header-inner {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .site-title a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1.4rem;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+      }
+
+      .site-title a:hover {
+        opacity: 0.85;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        color: #e8f5e1;
+        text-decoration: none;
+        font-size: 0.95rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        white-space: nowrap;
+      }
+
+      nav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+
+      main {
+        flex: 1;
+        max-width: 960px;
+        width: 100%;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+      }
+
+      footer {
+        background-color: #4a7030;
+        color: #d4ecc8;
+        text-align: center;
+        padding: 1rem 1.5rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.03em;
+      }
+
+      @media (max-width: 480px) {
+        .header-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav {
+          gap: 0.75rem;
+        }
+
+        nav a {
+          font-size: 0.9rem;
+        }
+
+        .site-title a {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="site-title">
+          <a href="/">うちのこ漢方</a>
+        </div>
+        <nav>
+          <a href="/index">ホーム</a>
+          <a href="/news">お知らせ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p>&copy; {new Date().getFullYear()} うちのこ漢方 All rights reserved.</p>
+    </footer>
+  </body>
+</html>

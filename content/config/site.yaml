@@ -1,0 +1,13 @@
+site_name: "うちのこ漢方"
+catchcopy: "ずっと一緒にいたいから、キミと始める漢方ライフ"
+phone: "00-0000-0000"
+address: "住所を入力してください"
+business_hours: "営業時間を入力してください"
+email: "メールアドレスを入力してください"
+images:
+  hero: "https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/hero.jpg"
+  logo: "https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/logo.png"
+  og: "https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/og.png"
+  product1: "https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product1.png"
+  product2: "https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product2.png"
+  product3: "https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product3.png"
