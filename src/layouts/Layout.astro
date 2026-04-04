@@ -1,97 +1,178 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 interface Props {
   title: string;
 }
 const { title } = Astro.props;
+const navItems = [
+  { label: 'ホーム', href: '/index' },
+  { label: 'お知らせ', href: '/news' },
+];
+const currentPath = Astro.url.pathname;
 ---
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | うちのこ漢方</title>
-    <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body {
-        font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-        background-color: #F7FAF4;
-        color: #333;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-      header {
-        background-color: #5C8A3C;
-        padding: 0.75rem 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      }
-      .site-title a {
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #fff;
-        text-decoration: none;
-        letter-spacing: 0.05em;
-      }
-      .site-title a:hover { opacity: 0.85; }
-      nav {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-      nav a {
-        color: #e8f5e2;
-        text-decoration: none;
-        font-size: 0.95rem;
-        padding: 0.3rem 0.7rem;
-        border-radius: 4px;
-        transition: background 0.2s, color 0.2s;
-      }
-      nav a:hover {
-        background-color: #4a7230;
-        color: #fff;
-      }
-      main {
-        flex: 1;
-        max-width: 900px;
-        width: 100%;
-        margin: 2rem auto;
-        padding: 0 1.25rem;
-      }
-      footer {
-        background-color: #5C8A3C;
-        color: #e8f5e2;
-        text-align: center;
-        padding: 1rem;
-        font-size: 0.82rem;
-        margin-top: auto;
-      }
-      @media (max-width: 600px) {
-        header { flex-direction: column; align-items: flex-start; }
-        .site-title a { font-size: 1.2rem; }
-        nav { gap: 0.5rem; }
-        nav a { font-size: 0.88rem; padding: 0.25rem 0.5rem; }
-        main { margin: 1.25rem auto; }
-      }
-    </style>
-  </head>
-  <body>
-    <header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | うちのこ漢方</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background-color: #F7FAF4;
+      color: #2d2d2d;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247,250,244,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #d4e8c2;
+      padding: 0 1.5rem;
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-title a {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #5C8A3C;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: #3a3a3a;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding-bottom: 3px;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #5C8A3C;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+    nav a.active { color: #5C8A3C; font-weight: 700; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: #5C8A3C;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: rgba(247,250,244,0.97);
+      border-top: 1px solid #d4e8c2;
+      padding: 1rem 1.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      text-decoration: none;
+      color: #3a3a3a;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e4f0d8;
+    }
+    .mobile-nav a.active { color: #5C8A3C; font-weight: 700; }
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+    footer {
+      background-color: #5C8A3C;
+      color: #fff;
+      text-align: center;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
       <div class="site-title"><a href="/">うちのこ漢方</a></div>
       <nav>
-        <a href="/index">ホーム</a>
-        <a href="/news">お知らせ</a>
+        <ul>
+          {navItems.map(item => (
+            <li>
+              <a href={item.href} class={currentPath === item.href || currentPath === item.href + '/' ? 'active' : ''}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
-    </footer>
-  </body>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      {navItems.map(item => (
+        <a href={item.href} class={currentPath === item.href || currentPath === item.href + '/' ? 'active' : ''}>
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
+  </footer>
+  <script>
+    const btn = document.getElementById('hamburger');
+    const nav = document.getElementById('mobile-nav');
+    btn?.addEventListener('click', () => {
+      nav?.classList.toggle('open');
+    });
+  </script>
+</body>
 </html>

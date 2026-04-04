@@ -23,92 +23,121 @@ if (existsSync(newsDir)) {
 }
 ---
 <Layout title={config.site_name}>
-<style>
-  body { background: #F7FAF4; color: #333; font-family: sans-serif; margin: 0; }
-  header { background: #fff; padding: 1rem 2rem; display: flex; align-items: center; border-bottom: 2px solid #5C8A3C; }
-  header img { height: 48px; margin-right: 1rem; }
-  header span { font-size: 1.3rem; font-weight: bold; color: #5C8A3C; }
-  .hero { position: relative; text-align: center; }
-  .hero img { width: 100%; max-height: 480px; object-fit: cover; display: block; }
-  .hero-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(255,255,255,0.75); padding: 1.5rem 2rem; border-radius: 12px; }
-  .hero-text h1 { color: #5C8A3C; font-size: 1.6rem; margin: 0 0 1rem; }
-  .btn { background: #5C8A3C; color: #fff; padding: 0.7rem 1.8rem; border-radius: 8px; text-decoration: none; font-size: 1rem; }
-  .section { max-width: 900px; margin: 3rem auto; padding: 0 1rem; }
-  h2 { color: #5C8A3C; border-left: 4px solid #5C8A3C; padding-left: 0.6rem; margin-bottom: 1.5rem; }
-  .cards { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-  .card { flex: 1 1 220px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
-  .card img { width: 100%; height: 180px; object-fit: cover; }
-  .card-body { padding: 1rem; }
-  .card-body h3 { color: #5C8A3C; margin: 0 0 0.5rem; }
-  .news-list { list-style: none; padding: 0; }
-  .news-list li { border-bottom: 1px solid #dde8d5; padding: 0.8rem 0; display: flex; gap: 1rem; align-items: baseline; }
-  .news-list a { color: #5C8A3C; text-decoration: none; }
-  .news-list a:hover { text-decoration: underline; }
-  .news-date { font-size: 0.85rem; color: #888; white-space: nowrap; }
-  .more-link { display: inline-block; margin-top: 1rem; color: #5C8A3C; text-decoration: none; font-weight: bold; }
-  .info-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-  .info-table th, .info-table td { padding: 0.9rem 1.2rem; border-bottom: 1px solid #dde8d5; text-align: left; }
-  .info-table th { background: #eaf4e2; color: #5C8A3C; width: 30%; }
-  footer { background: #5C8A3C; color: #fff; text-align: center; padding: 1.2rem; margin-top: 3rem; font-size: 0.9rem; }
-</style>
-<header>
-  <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/logo.png" alt="ロゴ" />
-  <span>{config.site_name}</span>
-</header>
+  <style>
+    :root { --main: #5C8A3C; --bg: #F7FAF4; }
+    .hero-bg { background-image: url('https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/hero.jpg'); background-size: cover; background-position: center; }
+    .cta-btn { background: linear-gradient(135deg, #5C8A3C, #8BBF5A); transition: transform 0.2s, box-shadow 0.2s; }
+    .cta-btn:hover { transform: scale(1.06); box-shadow: 0 8px 24px rgba(92,138,60,0.4); }
+    .card { transition: box-shadow 0.2s, transform 0.2s; }
+    .card:hover { box-shadow: 0 12px 32px rgba(92,138,60,0.25); transform: translateY(-4px); }
+    .news-row:nth-child(even) { background: #F7FAF4; }
+    .news-row:nth-child(odd) { background: #ffffff; }
+  </style>
 
-<section class="hero">
-  <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/hero.jpg" alt="ヒーロー画像" />
-  <div class="hero-text">
-    <h1>{config.catchcopy}</h1>
-    <a href="/products" class="btn">商品を見る</a>
-  </div>
-</section>
-
-<section class="section">
-  <h2>商品ラインナップ</h2>
-  <div class="cards">
-    <div class="card">
-      <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product1.png" alt="商品1" />
-      <div class="card-body"><h3>免疫サポート漢方</h3><p>体の内側から自然な力を引き出すブレンドです。</p></div>
+  <!-- Header -->
+  <header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+      <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/logo.png" alt="ロゴ" class="h-10 w-auto" />
+      <span class="text-xl font-bold" style="color:#5C8A3C">{config.site_name}</span>
     </div>
-    <div class="card">
-      <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product2.png" alt="商品2" />
-      <div class="card-body"><h3>消化ケアハーブ</h3><p>胃腸の調子を整える穏やかな自然素材を使用。</p></div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-bg min-h-screen flex items-center justify-center relative">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 text-center px-4">
+      <p class="text-white text-lg md:text-2xl mb-4 font-light tracking-widest drop-shadow">うちのこ漢方</p>
+      <h1 class="text-white text-3xl md:text-5xl font-bold leading-tight mb-8 drop-shadow-lg">
+        {config.catchcopy}
+      </h1>
+      <a href="#products" class="cta-btn inline-block text-white font-bold px-10 py-4 rounded-full text-lg shadow-lg">
+        商品を見る
+      </a>
     </div>
-    <div class="card">
-      <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product3.png" alt="商品3" />
-      <div class="card-body"><h3>リラックス漢方茶</h3><p>不安やストレスを和らげるやさしい処方です。</p></div>
+  </section>
+
+  <!-- Features / Products -->
+  <section id="products" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-2" style="color:#5C8A3C">おすすめ商品</h2>
+      <p class="text-center text-gray-500 mb-12">自然の力で、大切なペットの健康をサポート</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-green-100">
+          <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product1.png" alt="商品1" class="w-full h-52 object-cover" />
+          <div class="p-6">
+            <h3 class="text-lg font-bold mb-2" style="color:#5C8A3C">免疫サポート漢方</h3>
+            <p class="text-gray-600 text-sm">天然生薬をブレンドした、毎日の健康維持に最適なサプリメントです。</p>
+          </div>
+        </div>
+        <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-green-100">
+          <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product2.png" alt="商品2" class="w-full h-52 object-cover" />
+          <div class="p-6">
+            <h3 class="text-lg font-bold mb-2" style="color:#5C8A3C">関節ケア漢方</h3>
+            <p class="text-gray-600 text-sm">シニアペットの関節・足腰をやさしくサポートする自然派処方です。</p>
+          </div>
+        </div>
+        <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-green-100">
+          <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product3.png" alt="商品3" class="w-full h-52 object-cover" />
+          <div class="p-6">
+            <h3 class="text-lg font-bold mb-2" style="color:#5C8A3C">消化器サポート漢方</h3>
+            <p class="text-gray-600 text-sm">胃腸の不調が気になるペットに。腸内環境を整える優しい処方です。</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section">
-  <h2>お知らせ</h2>
-  {recentNews.length > 0 ? (
-    <ul class="news-list">
-      {recentNews.map((news: any) => (
-        <li>
-          <span class="news-date">{news.date}</span>
-          <a href={`/news/${news.slug}`}>{news.title}</a>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>現在お知らせはありません。</p>
-  )}
-  <a href="/news" class="more-link">お知らせ一覧を見る →</a>
-</section>
+  <!-- News -->
+  <section class="py-20" style="background:#F7FAF4">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-2" style="color:#5C8A3C">お知らせ</h2>
+      <p class="text-center text-gray-500 mb-10">最新情報をお届けします</p>
+      <div class="rounded-2xl overflow-hidden shadow border border-green-100">
+        {recentNews.length > 0 ? recentNews.map((news: any) => (
+          <a href={`/news/${news.slug}`} class="news-row flex items-center gap-4 px-6 py-4 hover:opacity-80 transition-opacity block">
+            <span class="text-sm text-gray-400 whitespace-nowrap">{news.date}</span>
+            <span class="text-xs px-2 py-1 rounded-full font-medium" style="background:#dff0d8;color:#5C8A3C">{news.category ?? 'お知らせ'}</span>
+            <span class="text-gray-700 font-medium text-sm">{news.title}</span>
+          </a>
+        )) : (
+          <p class="text-center text-gray-400 py-10">現在お知らせはありません</p>
+        )}
+      </div>
+      <div class="text-center mt-8">
+        <a href="/news" class="inline-block border-2 font-bold px-8 py-3 rounded-full hover:bg-green-50 transition-colors" style="color:#5C8A3C;border-color:#5C8A3C">
+          お知らせ一覧を見る →
+        </a>
+      </div>
+    </div>
+  </section>
 
-<section class="section">
-  <h2>基本情報</h2>
-  <table class="info-table">
-    <tr><th>住所</th><td>{config.address}</td></tr>
-    <tr><th>電話</th><td>{config.phone}</td></tr>
-    <tr><th>営業時間</th><td>{config.business_hours}</td></tr>
-    <tr><th>メール</th><td>{config.email}</td></tr>
-  </table>
-</section>
+  <!-- Info -->
+  <section class="py-20 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10" style="color:#5C8A3C">基本情報</h2>
+      <div class="rounded-2xl overflow-hidden shadow border border-green-100 divide-y divide-green-50">
+        <div class="flex items-start gap-4 px-8 py-5">
+          <span class="text-2xl">📍</span>
+          <div><p class="text-xs text-gray-400 mb-1">所在地</p><p class="text-gray-700">{config.address}</p></div>
+        </div>
+        <div class="flex items-start gap-4 px-8 py-5" style="background:#F7FAF4">
+          <span class="text-2xl">📞</span>
+          <div><p class="text-xs text-gray-400 mb-1">電話番号</p><p class="text-gray-700">{config.phone}</p></div>
+        </div>
+        <div class="flex items-start gap-4 px-8 py-5">
+          <span class="text-2xl">🕐</span>
+          <div><p class="text-xs text-gray-400 mb-1">営業時間</p><p class="text-gray-700">{config.business_hours}</p></div>
+        </div>
+        <div class="flex items-start gap-4 px-8 py-5" style="background:#F7FAF4">
+          <span class="text-2xl">✉️</span>
+          <div><p class="text-xs text-gray-400 mb-1">メール</p><p class="text-gray-700">{config.email}</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer>&copy; 2024 {config.site_name}</footer>
+  <!-- Footer -->
+  <footer class="py-8 text-center text-sm text-white" style="background:#5C8A3C">
+    <p>© {new Date().getFullYear()} {config.site_name} All Rights Reserved.</p>
+  </footer>
 </Layout>
-</html>
