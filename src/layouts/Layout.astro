@@ -1,11 +1,7 @@
 ---
 import '../styles/global.css';
 const { title } = Astro.props;
-const currentPath = Astro.url.pathname;
-const navItems = [
-  { label: 'ホーム', href: '/index' },
-  { label: 'お知らせ', href: '/news' },
-];
+const year = new Date().getFullYear();
 ---
 <!DOCTYPE html>
 <html lang="ja">
@@ -16,10 +12,9 @@ const navItems = [
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-      background-color: #F7FAF4;
-      color: #2d3a1f;
-      line-height: 1.7;
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: #F7FAF4;
+      color: #2d2d2d;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -31,17 +26,18 @@ const navItems = [
       background: rgba(247,250,244,0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(92,138,60,0.2);
+      border-bottom: 1px solid #d4e8c2;
     }
     .header-inner {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0.75rem 1.5rem;
+      padding: 0 1.5rem;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .site-logo a {
+    .site-name a {
       font-size: 1.25rem;
       font-weight: 700;
       color: #5C8A3C;
@@ -53,16 +49,15 @@ const navItems = [
       display: flex;
       gap: 2rem;
     }
-    nav ul li a {
-      position: relative;
+    nav a {
       text-decoration: none;
-      color: #2d3a1f;
+      color: #3d3d3d;
       font-size: 0.95rem;
       font-weight: 500;
+      position: relative;
       padding-bottom: 4px;
-      transition: color 0.2s;
     }
-    nav ul li a::after {
+    nav a::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -72,10 +67,13 @@ const navItems = [
       background: #5C8A3C;
       transition: width 0.3s ease;
     }
-    nav ul li a:hover { color: #5C8A3C; }
-    nav ul li a:hover::after,
-    nav ul li a.active::after { width: 100%; }
-    nav ul li a.active { color: #5C8A3C; }
+    nav a:hover::after,
+    nav a[aria-current="page"]::after {
+      width: 100%;
+    }
+    nav a[aria-current="page"] {
+      color: #5C8A3C;
+    }
     .hamburger {
       display: none;
       flex-direction: column;
@@ -87,37 +85,27 @@ const navItems = [
     }
     .hamburger span {
       display: block;
-      width: 26px;
+      width: 24px;
       height: 2px;
       background: #5C8A3C;
-      border-radius: 2px;
       transition: all 0.3s;
     }
     .mobile-nav {
       display: none;
       background: rgba(247,250,244,0.97);
-      border-top: 1px solid rgba(92,138,60,0.15);
+      border-top: 1px solid #d4e8c2;
+      padding: 1rem 1.5rem;
     }
     .mobile-nav.open { display: block; }
-    .mobile-nav ul {
-      list-style: none;
-      padding: 1rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .mobile-nav ul li a {
+    .mobile-nav ul { list-style: none; }
+    .mobile-nav li { padding: 0.75rem 0; border-bottom: 1px solid #e4f0d8; }
+    .mobile-nav a {
       text-decoration: none;
-      color: #2d3a1f;
+      color: #3d3d3d;
       font-size: 1rem;
       font-weight: 500;
-      padding: 0.4rem 0;
-      display: block;
-      border-bottom: 1px solid rgba(92,138,60,0.15);
-      transition: color 0.2s;
     }
-    .mobile-nav ul li a:hover,
-    .mobile-nav ul li a.active { color: #5C8A3C; }
+    .mobile-nav a:hover { color: #5C8A3C; }
     main {
       flex: 1;
       max-width: 1100px;
@@ -126,13 +114,14 @@ const navItems = [
       padding: 2.5rem 1.5rem;
     }
     footer {
-      background-color: #5C8A3C;
+      background: #5C8A3C;
       color: #fff;
       text-align: center;
-      padding: 1.25rem 1.5rem;
+      padding: 1.5rem 1rem;
       font-size: 0.85rem;
+      letter-spacing: 0.03em;
     }
-    @media (max-width: 680px) {
+    @media (max-width: 640px) {
       nav { display: none; }
       .hamburger { display: flex; }
     }
@@ -141,31 +130,21 @@ const navItems = [
 <body>
   <header>
     <div class="header-inner">
-      <div class="site-logo"><a href="/">うちのこ漢方</a></div>
-      <nav>
+      <div class="site-name"><a href="/">うちのこ漢方</a></div>
+      <nav aria-label="メインナビゲーション">
         <ul>
-          {navItems.map(item => (
-            <li>
-              <a href={item.href} class={currentPath === item.href ? 'active' : ''}>
-                {item.label}
-              </a>
-            </li>
-          ))}
+          <li><a href="/index">ホーム</a></li>
+          <li><a href="/news">お知らせ</a></li>
         </ul>
       </nav>
-      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+      <button class="hamburger" aria-label="メニューを開く" aria-expanded="false" id="menuBtn">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
       <ul>
-        {navItems.map(item => (
-          <li>
-            <a href={item.href} class={currentPath === item.href ? 'active' : ''}>
-              {item.label}
-            </a>
-          </li>
-        ))}
+        <li><a href="/index">ホーム</a></li>
+        <li><a href="/news">お知らせ</a></li>
       </ul>
     </div>
   </header>
@@ -173,13 +152,15 @@ const navItems = [
     <slot />
   </main>
   <footer>
-    <p>&copy; {new Date().getFullYear()} うちのこ漢方 All Rights Reserved.</p>
+    <p>&copy; {year} うちのこ漢方. All rights reserved.</p>
   </footer>
   <script>
-    const btn = document.getElementById('hamburger');
-    const menu = document.getElementById('mobileNav');
+    const btn = document.getElementById('menuBtn');
+    const nav = document.getElementById('mobileNav');
     btn?.addEventListener('click', () => {
-      menu?.classList.toggle('open');
+      const open = nav?.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+      nav?.setAttribute('aria-hidden', String(!open));
     });
   </script>
 </body>
