@@ -18,45 +18,129 @@ if (existsSync(newsDir)) {
 }
 ---
 <Layout title="お知らせ一覧 | うちのこ漢方">
-  <main style="background:#F7FAF4; min-height:100vh; padding:48px 16px;">
-    <div style="max-width:720px; margin:0 auto;">
-      <h1 style="font-size:1.8rem; color:#5C8A3C; border-bottom:2px solid #5C8A3C; padding-bottom:12px; margin-bottom:32px; font-weight:700; letter-spacing:0.05em;">
-        🌿 お知らせ
-      </h1>
-      {newsList.length === 0 ? (
-        <p style="color:#6b7c61; font-size:1rem; text-align:center; padding:48px 0;">
-          現在、お知らせはありません。
-        </p>
-      ) : (
-        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:16px;">
-          {newsList.map((news: any) => (
-            <li style="background:#ffffff; border:1px solid #d4e8c2; border-radius:10px; overflow:hidden; transition:box-shadow 0.2s;">
-              <a
-                href={`/news/${news.slug}`}
-                style="display:block; padding:20px 24px; text-decoration:none; color:inherit;"
-              >
-                <span style="display:block; font-size:0.8rem; color:#7a9e5e; margin-bottom:6px; letter-spacing:0.04em;">
-                  {new Date(news.date).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
-                </span>
-                {news.category && (
-                  <span style="display:inline-block; background:#e8f4dd; color:#5C8A3C; font-size:0.72rem; padding:2px 10px; border-radius:20px; margin-bottom:8px; font-weight:600;">
-                    {news.category}
-                  </span>
-                )}
-                <span style="display:block; font-size:1.05rem; font-weight:600; color:#2e4a1e; line-height:1.5;">
-                  {news.title}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-      <div style="margin-top:40px; text-align:center;">
-        <a href="/" style="display:inline-block; color:#5C8A3C; font-size:0.9rem; text-decoration:none; border:1px solid #5C8A3C; border-radius:6px; padding:8px 24px;">
-          ← トップページへ戻る
-        </a>
+  <div class="banner">
+    <h1 class="banner-title">お知らせ</h1>
+    <p class="banner-sub">新着情報・スタッフからのご案内</p>
+  </div>
+  <main class="container">
+    {newsList.length > 0 ? (
+      <ul class="news-list">
+        {newsList.map((news: any) => (
+          <li class="news-card">
+            <a href={`/news/${news.slug}`} class="news-link">
+              <span class="date-badge">{new Date(news.date).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}</span>
+              <span class="news-title">{news.title}</span>
+              <span class="arrow">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="empty-state">
+        <div class="empty-icon">🌿</div>
+        <p class="empty-text">現在、お知らせはありません。</p>
+        <p class="empty-sub">新しい情報をお楽しみに。</p>
       </div>
-    </div>
+    )}
   </main>
 </Layout>
+<style>
+  .banner {
+    background: linear-gradient(135deg, #5C8A3C 0%, #7AAF56 60%, #A8CC85 100%);
+    padding: 64px 24px 48px;
+    text-align: center;
+  }
+  .banner-title {
+    font-size: 2.2rem;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin: 0 0 8px;
+  }
+  .banner-sub {
+    color: #e4f0da;
+    font-size: 0.95rem;
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 16px 80px;
+  }
+  .news-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .news-card {
+    background: #fff;
+    border: 1px solid #d8eacc;
+    border-radius: 12px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .news-card:hover {
+    box-shadow: 0 8px 24px rgba(92, 138, 60, 0.18);
+    transform: translateY(-2px);
+  }
+  .news-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .date-badge {
+    background: #F7FAF4;
+    border: 1px solid #b4d89a;
+    color: #5C8A3C;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+  .news-title {
+    flex: 1;
+    font-size: 1rem;
+    color: #2e4a1e;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .arrow {
+    color: #5C8A3C;
+    font-size: 1rem;
+    transition: transform 0.2s;
+  }
+  .news-card:hover .arrow {
+    transform: translateX(4px);
+  }
+  .empty-state {
+    text-align: center;
+    padding: 80px 24px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px dashed #b4d89a;
+  }
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+  .empty-text {
+    font-size: 1.1rem;
+    color: #4a7030;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .empty-sub {
+    font-size: 0.88rem;
+    color: #8aab70;
+    margin: 0;
+  }
+</style>
 </html>
