@@ -1,16 +1,15 @@
 ---
-import type { CollectionEntry } from 'astro:content';
 interface Props {
   title: string;
 }
 const { title } = Astro.props;
-const navItems = [
-  { label: 'ホーム', href: '/index' },
-  { label: 'お知らせ', href: '/news' },
-];
 const currentPath = Astro.url.pathname;
+const navItems = [
+  { label: "ホーム", href: "/index" },
+  { label: "お知らせ", href: "/news" },
+];
 ---
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
@@ -26,6 +25,7 @@ const currentPath = Astro.url.pathname;
       display: flex;
       flex-direction: column;
     }
+    a { text-decoration: none; color: inherit; }
     header {
       position: sticky;
       top: 0;
@@ -44,57 +44,52 @@ const currentPath = Astro.url.pathname;
       align-items: center;
       justify-content: space-between;
     }
-    .site-title a {
+    .site-logo {
       font-size: 1.25rem;
       font-weight: 700;
       color: #5C8A3C;
-      text-decoration: none;
       letter-spacing: 0.05em;
     }
+    .site-logo:hover { opacity: 0.8; }
     nav ul {
-      list-style: none;
       display: flex;
       gap: 2rem;
+      list-style: none;
     }
     nav a {
-      text-decoration: none;
-      color: #3a3a3a;
+      position: relative;
       font-size: 0.95rem;
       font-weight: 500;
-      padding-bottom: 3px;
-      position: relative;
+      color: #3a3a3a;
+      padding-bottom: 4px;
     }
     nav a::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
       background: #5C8A3C;
       transition: width 0.3s ease;
+      border-radius: 2px;
     }
     nav a:hover::after,
-    nav a.active::after {
-      width: 100%;
-    }
+    nav a.active::after { width: 100%; }
     nav a.active { color: #5C8A3C; font-weight: 700; }
     .hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
+      cursor: pointer;
       background: none;
       border: none;
-      cursor: pointer;
       padding: 4px;
     }
     .hamburger span {
       display: block;
-      width: 26px;
-      height: 2px;
+      width: 24px; height: 2px;
       background: #5C8A3C;
-      transition: all 0.3s ease;
       border-radius: 2px;
+      transition: all 0.3s;
     }
     .mobile-nav {
       display: none;
@@ -105,11 +100,10 @@ const currentPath = Astro.url.pathname;
     }
     .mobile-nav.open { display: flex; }
     .mobile-nav a {
-      text-decoration: none;
-      color: #3a3a3a;
+      padding: 0.75rem 0;
       font-size: 1rem;
       font-weight: 500;
-      padding: 0.75rem 0;
+      color: #3a3a3a;
       border-bottom: 1px solid #e4f0d8;
     }
     .mobile-nav a.active { color: #5C8A3C; font-weight: 700; }
@@ -121,41 +115,42 @@ const currentPath = Astro.url.pathname;
       padding: 2.5rem 1.5rem;
     }
     footer {
-      background-color: #5C8A3C;
-      color: #fff;
+      background: #5C8A3C;
+      color: #ffffff;
       text-align: center;
-      padding: 1.25rem 1.5rem;
-      font-size: 0.85rem;
-      letter-spacing: 0.03em;
+      padding: 1.25rem 1rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
     }
     @media (max-width: 640px) {
       nav ul { display: none; }
       .hamburger { display: flex; }
+      main { padding: 1.5rem 1rem; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="header-inner">
-      <div class="site-title"><a href="/">うちのこ漢方</a></div>
+      <a href="/" class="site-logo">🌿 うちのこ漢方</a>
       <nav>
         <ul>
-          {navItems.map(item => (
+          {navItems.map((item) => (
             <li>
-              <a href={item.href} class={currentPath === item.href || currentPath === item.href + '/' ? 'active' : ''}>
+              <a href={item.href} class={currentPath === item.href ? "active" : ""}>
                 {item.label}
               </a>
             </li>
           ))}
         </ul>
       </nav>
-      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+      <button class="hamburger" id="menuBtn" aria-label="メニュー">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="mobile-nav" id="mobile-nav">
-      {navItems.map(item => (
-        <a href={item.href} class={currentPath === item.href || currentPath === item.href + '/' ? 'active' : ''}>
+    <div class="mobile-nav" id="mobileNav">
+      {navItems.map((item) => (
+        <a href={item.href} class={currentPath === item.href ? "active" : ""}>
           {item.label}
         </a>
       ))}
@@ -165,14 +160,12 @@ const currentPath = Astro.url.pathname;
     <slot />
   </main>
   <footer>
-    <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
+    <p>&copy; {new Date().getFullYear()} うちのこ漢方 All Rights Reserved.</p>
   </footer>
   <script>
-    const btn = document.getElementById('hamburger');
-    const nav = document.getElementById('mobile-nav');
-    btn?.addEventListener('click', () => {
-      nav?.classList.toggle('open');
-    });
+    const btn = document.getElementById('menuBtn');
+    const nav = document.getElementById('mobileNav');
+    btn?.addEventListener('click', () => { nav?.classList.toggle('open'); });
   </script>
 </body>
 </html>
