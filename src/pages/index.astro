@@ -23,9 +23,9 @@ if (existsSync(newsDir)) {
 }
 
 const products = [
-  { img: 'https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product1.png', name: '体質改善サポート漢方', desc: '愛犬・愛猫の体質に合わせた自然由来ブレンド。毎日の健康維持に。' },
-  { img: 'https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product2.png', name: '免疫力アップ漢方', desc: '季節の変わり目にも負けない免疫力を自然の力でサポートします。' },
-  { img: 'https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product3.png', name: 'リラックスハーブブレンド', desc: 'ストレスや不安を感じるペットに。穏やかな毎日をお届けします。' },
+  { img: 'https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product1.png', name: '免疫サポート漢方', desc: '体の内側から免疫力を高め、元気な毎日をサポートします。' },
+  { img: 'https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product2.png', name: '消化ケアブレンド', desc: 'お腹の調子を整え、食欲を自然に引き出す漢方ブレンドです。' },
+  { img: 'https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/product3.png', name: 'リラックスハーブ', desc: '不安やストレスをやわらげ、穏やかな毎日を届けます。' },
 ];
 ---
 <Layout title={config.site_name}>
@@ -36,28 +36,27 @@ const products = [
   header span { font-size: 1.4rem; font-weight: bold; color: #5C8A3C; }
   .hero { position: relative; text-align: center; }
   .hero img { width: 100%; max-height: 480px; object-fit: cover; display: block; }
-  .hero-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); padding: 16px; }
-  .hero-text h1 { color: #fff; font-size: 1.8rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.6); margin: 0 0 20px; }
-  .cta { background: #5C8A3C; color: #fff; padding: 14px 36px; border-radius: 32px; text-decoration: none; font-size: 1rem; font-weight: bold; }
-  .cta:hover { background: #4a7230; }
-  section { max-width: 960px; margin: 48px auto; padding: 0 24px; }
-  h2 { color: #5C8A3C; font-size: 1.5rem; border-left: 4px solid #5C8A3C; padding-left: 12px; margin-bottom: 24px; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
-  .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .hero-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,.35); color: #fff; padding: 16px; }
+  .hero-text h1 { font-size: clamp(1.2rem,3vw,2rem); margin: 0 0 20px; text-shadow: 0 2px 4px rgba(0,0,0,.5); }
+  .btn { background: #5C8A3C; color: #fff; padding: 12px 32px; border-radius: 32px; text-decoration: none; font-size: 1rem; font-weight: bold; }
+  .btn:hover { background: #4a7030; }
+  section { padding: 48px 32px; max-width: 960px; margin: 0 auto; }
+  h2 { color: #5C8A3C; border-left: 4px solid #5C8A3C; padding-left: 10px; margin-bottom: 24px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 24px; }
+  .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
   .card img { width: 100%; height: 180px; object-fit: cover; }
   .card-body { padding: 16px; }
-  .card-body h3 { margin: 0 0 8px; color: #5C8A3C; font-size: 1rem; }
-  .card-body p { margin: 0; font-size: 0.9rem; line-height: 1.6; }
+  .card-body h3 { margin: 0 0 8px; color: #5C8A3C; }
   .news-list { list-style: none; padding: 0; margin: 0; }
-  .news-list li { border-bottom: 1px solid #dde8d5; padding: 12px 0; display: flex; gap: 16px; align-items: baseline; }
-  .news-list li time { color: #888; font-size: 0.85rem; white-space: nowrap; }
-  .news-list li a { color: #333; text-decoration: none; font-size: 0.95rem; }
+  .news-list li { border-bottom: 1px solid #d4e8c8; padding: 12px 0; display: flex; gap: 16px; align-items: baseline; }
+  .news-list li time { color: #888; font-size: .85rem; white-space: nowrap; }
+  .news-list li a { color: #333; text-decoration: none; }
   .news-list li a:hover { color: #5C8A3C; }
-  .news-more { display: inline-block; margin-top: 16px; color: #5C8A3C; font-size: 0.9rem; text-decoration: none; border: 1px solid #5C8A3C; padding: 6px 20px; border-radius: 20px; }
-  .info-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-  .info-table th, .info-table td { padding: 12px 16px; border-bottom: 1px solid #dde8d5; text-align: left; }
-  .info-table th { width: 140px; color: #5C8A3C; font-weight: bold; background: #edf5e8; }
-  footer { text-align: center; padding: 24px; background: #5C8A3C; color: #fff; font-size: 0.85rem; margin-top: 48px; }
+  .more { display: inline-block; margin-top: 16px; color: #5C8A3C; text-decoration: none; font-weight: bold; }
+  .info-table { border-collapse: collapse; width: 100%; }
+  .info-table th, .info-table td { border: 1px solid #c8dfc0; padding: 10px 16px; text-align: left; }
+  .info-table th { background: #e8f4e0; color: #5C8A3C; width: 30%; }
+  footer { background: #5C8A3C; color: #fff; text-align: center; padding: 20px; font-size: .85rem; }
 </style>
 <header>
   <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/logo.png" alt={config.site_name} />
@@ -67,19 +66,16 @@ const products = [
   <img src="https://pub-bd62f7d54b114fa2956b7a67f5178ba4.r2.dev/sites/pet-kampo/hero.jpg" alt="ヒーロー画像" />
   <div class="hero-text">
     <h1>{config.catchcopy}</h1>
-    <a href="#products" class="cta">商品を見る</a>
+    <a href="/products" class="btn">商品を見る</a>
   </div>
 </div>
-<section id="products">
+<section>
   <h2>おすすめ商品</h2>
   <div class="cards">
     {products.map(p => (
       <div class="card">
         <img src={p.img} alt={p.name} />
-        <div class="card-body">
-          <h3>{p.name}</h3>
-          <p>{p.desc}</p>
-        </div>
+        <div class="card-body"><h3>{p.name}</h3><p>{p.desc}</p></div>
       </div>
     ))}
   </div>
@@ -95,10 +91,8 @@ const products = [
         </li>
       ))}
     </ul>
-  ) : (
-    <p>お知らせはまだありません。</p>
-  )}
-  <a href="/news" class="news-more">お知らせ一覧へ →</a>
+  ) : <p>現在お知らせはありません。</p>}
+  <a href="/news" class="more">お知らせ一覧 →</a>
 </section>
 <section>
   <h2>基本情報</h2>
@@ -110,8 +104,6 @@ const products = [
     <tr><th>メール</th><td>{config.email}</td></tr>
   </table>
 </section>
-<footer>
-  <p>&copy; {new Date().getFullYear()} {config.site_name}. All rights reserved.</p>
-</footer>
+<footer>&copy; 2024 {config.site_name}</footer>
 </Layout>
 </html>

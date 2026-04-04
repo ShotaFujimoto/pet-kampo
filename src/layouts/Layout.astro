@@ -1,5 +1,9 @@
 ---
-import type { Props } from '../types';
+import type { FC } from 'react';
+
+interface Props {
+  title: string;
+}
 
 const { title } = Astro.props;
 ---
@@ -10,132 +14,155 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | うちのこ漢方</title>
-    <style>
-      *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-        background-color: #F7FAF4;
-        color: #3a3a2e;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        line-height: 1.7;
-      }
-
-      header {
-        background-color: #5C8A3C;
-        padding: 0.8rem 1.5rem;
-        box-shadow: 0 2px 6px rgba(92, 138, 60, 0.3);
-      }
-
-      .header-inner {
-        max-width: 960px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .site-title a {
-        color: #ffffff;
-        text-decoration: none;
-        font-size: 1.4rem;
-        font-weight: bold;
-        letter-spacing: 0.05em;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-      }
-
-      .site-title a:hover {
-        opacity: 0.85;
-      }
-
-      nav {
-        display: flex;
-        gap: 1.2rem;
-        flex-wrap: wrap;
-      }
-
-      nav a {
-        color: #e8f5e0;
-        text-decoration: none;
-        font-size: 0.95rem;
-        padding: 0.3rem 0.6rem;
-        border-radius: 4px;
-        transition: background-color 0.2s, color 0.2s;
-      }
-
-      nav a:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: #ffffff;
-      }
-
-      main {
-        flex: 1;
-        max-width: 960px;
-        width: 100%;
-        margin: 2rem auto;
-        padding: 0 1.5rem;
-      }
-
-      footer {
-        background-color: #4a7230;
-        color: #d4ebca;
-        text-align: center;
-        padding: 1rem 1.5rem;
-        font-size: 0.82rem;
-        margin-top: auto;
-      }
-
-      @media (max-width: 600px) {
-        .header-inner {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .site-title a {
-          font-size: 1.2rem;
-        }
-
-        nav {
-          gap: 0.8rem;
-        }
-
-        nav a {
-          font-size: 0.88rem;
-        }
-
-        main {
-          margin: 1.2rem auto;
-        }
-      }
-    </style>
+    <meta name="description" content="うちのこ漢方 - 自然の力でペットの健康をサポート" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <header>
+    <header class="site-header">
       <div class="header-inner">
-        <div class="site-title">
-          <a href="/">うちのこ漢方</a>
-        </div>
-        <nav>
-          <a href="/index">ホーム</a>
-          <a href="/news">お知らせ</a>
+        <a href="/" class="site-logo">🌿 うちのこ漢方</a>
+        <nav class="site-nav">
+          <ul class="nav-list">
+            <li><a href="/index" class="nav-link">ホーム</a></li>
+            <li><a href="/news" class="nav-link">お知らせ</a></li>
+          </ul>
         </nav>
+        <button class="menu-toggle" aria-label="メニューを開く">&#9776;</button>
       </div>
     </header>
 
-    <main>
+    <main class="site-main">
       <slot />
     </main>
 
-    <footer>
-      <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="copyright">&copy; {new Date().getFullYear()} うちのこ漢方 All Rights Reserved.</p>
+      </div>
     </footer>
+
+    <script>
+      const toggle = document.querySelector('.menu-toggle');
+      const navList = document.querySelector('.nav-list');
+      toggle?.addEventListener('click', () => {
+        navList?.classList.toggle('open');
+      });
+    </script>
   </body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #F7FAF4;
+    color: #333;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-header {
+    background-color: #5C8A3C;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .site-logo:hover { opacity: 0.85; }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .nav-link:hover { background-color: rgba(255,255,255,0.2); }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.6rem;
+    cursor: pointer;
+  }
+
+  .site-main {
+    flex: 1;
+    max-width: 1100px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .site-footer {
+    background-color: #5C8A3C;
+    color: #e8f5e0;
+    text-align: center;
+    padding: 1.2rem 1rem;
+    margin-top: auto;
+  }
+
+  .copyright { font-size: 0.82rem; }
+
+  @media (max-width: 640px) {
+    .menu-toggle { display: block; }
+
+    .nav-list {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #4a7230;
+      padding: 0.5rem 0;
+    }
+
+    .nav-list.open { display: flex; }
+
+    .nav-link {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0;
+    }
+
+    .site-header { position: relative; }
+  }
+</style>
 </html>
