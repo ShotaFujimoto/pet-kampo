@@ -31,7 +31,6 @@ return text
 }
 const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 ---
-
 <Layout title={`${frontmatter.title} | うちのこ漢方`}>
   <div class="hero-banner">
     <div class="banner-inner">
@@ -42,9 +41,9 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 
   <main class="main-content">
     <article class="article-card">
-      <div class="meta-row">
+      <div class="article-meta">
         <time class="article-date" datetime={frontmatter.date}>
-          {frontmatter.date}
+          📅 {frontmatter.date}
         </time>
       </div>
       <h2 class="article-title">{frontmatter.title}</h2>
@@ -59,8 +58,8 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 
 <style>
   .hero-banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7aad52 60%, #a8cc80 100%);
-    padding: 3rem 1.5rem;
+    background: linear-gradient(135deg, #5C8A3C 0%, #7AAF55 60%, #A8CC80 100%);
+    padding: 3.5rem 1.5rem 3rem;
     text-align: center;
   }
   .banner-inner {
@@ -79,56 +78,66 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
   }
   .banner-title {
     color: #fff;
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-size: clamp(1.3rem, 3vw, 2rem);
     font-weight: 700;
     line-height: 1.5;
     text-shadow: 0 1px 4px rgba(0,0,0,0.15);
     margin: 0;
   }
+
   .main-content {
     background: #F7FAF4;
     min-height: 60vh;
     padding: 2.5rem 1.5rem 4rem;
   }
+
   .article-card {
     max-width: 720px;
     margin: 0 auto;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(92,138,60,0.08);
-    padding: 2rem 2.5rem;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 2px 16px rgba(92,138,60,0.08);
+    border-top: 4px solid #5C8A3C;
   }
-  .meta-row {
+
+  .article-meta {
     margin-bottom: 0.75rem;
   }
   .article-date {
     display: inline-block;
-    background: #eef5e8;
-    color: #5C8A3C;
     font-size: 0.85rem;
+    color: #7AAF55;
     font-weight: 600;
     letter-spacing: 0.05em;
-    padding: 0.2rem 0.85rem;
-    border-radius: 4px;
+    background: #F0F7EA;
+    padding: 0.25rem 0.85rem;
+    border-radius: 999px;
   }
+
   .article-title {
-    font-size: 1.35rem;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
     font-weight: 700;
-    color: #2d4a1e;
-    line-height: 1.6;
-    margin: 0 0 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #eef5e8;
+    color: #2E4D1E;
+    border-bottom: 2px solid #D4EABE;
+    padding-bottom: 0.75rem;
+    margin: 0.5rem 0 1.5rem;
+    line-height: 1.5;
   }
+
   .article-body {
-    color: #3d3d3d;
     font-size: 1rem;
+    color: #3D3D3D;
     line-height: 1.9;
   }
   .article-body :global(strong) {
     color: #5C8A3C;
     font-weight: 700;
   }
+  .article-body :global(p) {
+    margin-bottom: 1.2em;
+  }
+
   .back-link-wrap {
     max-width: 720px;
     margin: 2rem auto 0;
@@ -139,14 +148,17 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
     background: #5C8A3C;
     color: #fff;
     text-decoration: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
     font-size: 0.9rem;
     font-weight: 600;
-    padding: 0.6rem 1.4rem;
-    border-radius: 6px;
-    transition: background 0.2s;
+    letter-spacing: 0.05em;
+    transition: background 0.2s ease, transform 0.15s ease;
+    box-shadow: 0 2px 8px rgba(92,138,60,0.2);
   }
   .back-btn:hover {
-    background: #4a7230;
+    background: #4A7230;
+    transform: translateY(-1px);
   }
 </style>
 </html>
