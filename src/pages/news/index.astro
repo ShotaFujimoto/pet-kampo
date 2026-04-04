@@ -18,83 +18,40 @@ if (existsSync(newsDir)) {
 }
 ---
 <Layout title="お知らせ | うちのこ漢方">
-  <main style="background-color: #F7FAF4; min-height: 100vh; padding: 3rem 1rem;">
-    <div style="max-width: 800px; margin: 0 auto;">
-      <h1 style="
-        font-size: 1.8rem;
-        color: #5C8A3C;
-        text-align: center;
-        margin-bottom: 0.5rem;
-        font-weight: bold;
-        letter-spacing: 0.05em;
-      ">お知らせ</h1>
-      <p style="
-        text-align: center;
-        color: #7a9c60;
-        font-size: 0.95rem;
-        margin-bottom: 2.5rem;
-      ">うちのこ漢方からの最新情報をお届けします</p>
+  <main style="background:#F7FAF4; min-height:100vh; padding:3rem 1rem;">
+    <div style="max-width:760px; margin:0 auto;">
+      <h1 style="font-size:1.8rem; color:#5C8A3C; border-left:5px solid #5C8A3C; padding-left:0.75rem; margin-bottom:0.5rem;">
+        お知らせ
+      </h1>
+      <p style="color:#6b7a5e; margin-bottom:2.5rem; font-size:0.95rem;">
+        うちのこ漢方からの最新情報をお届けします。
+      </p>
 
       {newsList.length === 0 ? (
-        <p style="text-align: center; color: #888; padding: 3rem 0;">
-          現在お知らせはありません。
-        </p>
+        <p style="color:#888; text-align:center; padding:3rem 0;">現在、お知らせはありません。</p>
       ) : (
-        <ul style="list-style: none; padding: 0; margin: 0;">
+        <ul style="list-style:none; padding:0; margin:0;">
           {newsList.map((news: any) => (
-            <li style="
-              border-bottom: 1px solid #d6e8c8;
-              padding: 0;
-              margin-bottom: 0;
-            ">
+            <li style="border-bottom:1px solid #d4e6c3; padding:1.25rem 0;">
               <a
                 href={`/news/${news.slug}`}
-                style="
-                  display: flex;
-                  align-items: baseline;
-                  gap: 1.2rem;
-                  padding: 1.2rem 1rem;
-                  text-decoration: none;
-                  color: inherit;
-                  transition: background 0.2s;
-                "
-                onmouseover="this.style.backgroundColor='#edf5e5'"
-                onmouseout="this.style.backgroundColor='transparent'"
+                style="text-decoration:none; display:flex; flex-wrap:wrap; align-items:baseline; gap:0.75rem;"
               >
                 <time
                   datetime={news.date}
-                  style="
-                    font-size: 0.85rem;
-                    color: #7a9c60;
-                    white-space: nowrap;
-                    flex-shrink: 0;
-                    font-family: monospace;
-                  "
+                  style="font-size:0.85rem; color:#7a9a62; white-space:nowrap; min-width:6rem;"
                 >
-                  {new Date(news.date).toLocaleDateString('ja-JP', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                  })}
+                  {new Date(news.date).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
                 </time>
                 {news.category && (
-                  <span style="
-                    font-size: 0.75rem;
-                    color: #5C8A3C;
-                    border: 1px solid #5C8A3C;
-                    border-radius: 3px;
-                    padding: 0.1rem 0.5rem;
-                    white-space: nowrap;
-                    flex-shrink: 0;
-                  ">
+                  <span style="font-size:0.78rem; background:#e6f2dc; color:#5C8A3C; border-radius:3px; padding:0.15rem 0.6rem; white-space:nowrap;">
                     {news.category}
                   </span>
                 )}
-                <span style="
-                  font-size: 1rem;
-                  color: #3a3a3a;
-                  line-height: 1.6;
-                ">
+                <span style="font-size:1rem; color:#2d3a24; font-weight:500; flex:1; min-width:200px; transition:color 0.2s;"
+                  onmouseover="this.style.color='#5C8A3C'"
+                  onmouseout="this.style.color='#2d3a24'"
+                >
                   {news.title}
                 </span>
               </a>
