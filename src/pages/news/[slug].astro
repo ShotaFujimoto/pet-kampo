@@ -5,156 +5,231 @@ import { parse } from 'yaml';
 import { join } from 'path';
 
 export function getStaticPaths() {
-const newsDir = join(process.cwd(), 'content/news');
-if (!existsSync(newsDir)) return [];
-const files = readdirSync(newsDir).filter((f: string) => f.endsWith('.md'));
-if (files.length === 0) return [];
-return files.map((file: string) => {
+  const newsDir = join(process.cwd(), 'content/news');
+  if (!existsSync(newsDir)) return [];
+  const files = readdirSync(newsDir).filter((f: string) => f.endsWith('.md'));
+  if (files.length === 0) return [];
+  return files.map((file: string) => {
     const raw = readFileSync(join(newsDir, file), 'utf-8');
     const match = raw.match(/^---\n([\s\S]*?)\n---/);
     const frontmatter = match ? parse(match[1]) : {};
     const body = raw.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
     return {
-    params: { slug: String(frontmatter.slug) },
-    props: { frontmatter, body }
+      params: { slug: String(frontmatter.slug) },
+      props: { frontmatter, body }
     };
-});
+  });
 }
 
 const { frontmatter, body } = Astro.props;
 
 function renderMarkdown(text: string): string {
-return text
+  return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>');
 }
 const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 ---
+
 <Layout title={`${frontmatter.title} | うちのこ漢方`}>
-  <div class="hero-banner">
-    <div class="hero-inner">
-      <p class="hero-label">お知らせ</p>
-      <h1 class="hero-title">{frontmatter.title}</h1>
-    </div>
+  <style>
+    .banner {
+      background: linear-gradient(135deg, #5C8A3C 0%, #7aab55 60%, #a8cc88 100%);
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: -40px;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
+    }
+    .banner::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      right: -30px;
+      width: 220px;
+      height: 220px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .banner-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      padding: 0.25rem 1rem;
+      border-radius: 99px;
+      margin-bottom: 0.85rem;
+      font-weight: 600;
+    }
+    .banner-title {
+      color: #fff;
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 700;
+      line-height: 1.5;
+      max-width: 700px;
+      margin: 0 auto;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .banner-date {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.88rem;
+      margin-top: 0.75rem;
+      letter-spacing: 0.06em;
+      position: relative;
+      z-index: 1;
+    }
+    .leaf-deco {
+      font-size: 1.5rem;
+      opacity: 0.55;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .page-wrapper {
+      background: #F7FAF4;
+      min-height: 60vh;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .article-container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .article-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(92,138,60,0.08);
+      padding: 2.5rem 2.75rem;
+      border-top: 4px solid #5C8A3C;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px dashed #c8ddb8;
+    }
+    .article-date {
+      font-size: 0.85rem;
+      color: #5C8A3C;
+      font-weight: 600;
+      background: #eef5e8;
+      padding: 0.22rem 0.85rem;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+    .article-tag {
+      font-size: 0.78rem;
+      color: #888;
+      letter-spacing: 0.04em;
+    }
+    .article-title {
+      font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+      font-weight: 700;
+      color: #2d4a1e;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+    .article-divider {
+      border: none;
+      border-top: 2px solid #eef5e8;
+      margin-bottom: 1.75rem;
+    }
+    .article-body {
+      font-size: 1rem;
+      color: #3d3d3d;
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+    }
+    .article-body p {
+      margin-bottom: 1.25em;
+    }
+    .article-body p:last-child {
+      margin-bottom: 0;
+    }
+    .article-body strong {
+      color: #5C8A3C;
+      font-weight: 700;
+    }
+    .back-area {
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fff;
+      color: #5C8A3C;
+      border: 2px solid #5C8A3C;
+      border-radius: 99px;
+      padding: 0.65rem 1.75rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      letter-spacing: 0.04em;
+    }
+    .back-btn:hover {
+      background: #5C8A3C;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .back-btn .arrow {
+      font-size: 1.1em;
+      transition: transform 0.2s;
+    }
+    .back-btn:hover .arrow {
+      transform: translateX(-3px);
+    }
+    @media (max-width: 600px) {
+      .article-card {
+        padding: 1.75rem 1.25rem;
+      }
+      .banner {
+        padding: 2.25rem 1rem 2rem;
+      }
+    }
+  </style>
+
+  <div class="banner">
+    <span class="leaf-deco">🌿</span>
+    <div class="banner-label">お知らせ</div>
+    <h1 class="banner-title">{frontmatter.title}</h1>
+    <p class="banner-date">{frontmatter.date}</p>
   </div>
 
-  <main class="main-content">
-    <article class="article-card">
-      <div class="article-meta">
-        <time class="article-date" datetime={frontmatter.date}>
-          📅 {frontmatter.date}
-        </time>
+  <div class="page-wrapper">
+    <div class="article-container">
+      <article class="article-card">
+        <div class="article-meta">
+          <span class="article-date">{frontmatter.date}</span>
+          <span class="article-tag">うちのこ漢方 お知らせ</span>
+        </div>
+        <h2 class="article-title">{frontmatter.title}</h2>
+        <hr class="article-divider" />
+        <div class="article-body" set:html={htmlBody} />
+      </article>
+
+      <div class="back-area">
+        <a href="/news" class="back-btn">
+          <span class="arrow">←</span>
+          お知らせ一覧に戻る
+        </a>
       </div>
-      <h2 class="article-title">{frontmatter.title}</h2>
-      <div class="article-body" set:html={htmlBody} />
-    </article>
-
-    <div class="back-link-wrap">
-      <a href="/news" class="back-button">← お知らせ一覧に戻る</a>
     </div>
-  </main>
+  </div>
 </Layout>
-
-<style>
-  .hero-banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7ab356 60%, #a8d080 100%);
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-  .hero-inner {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .hero-label {
-    display: inline-block;
-    background: rgba(255,255,255,0.25);
-    color: #fff;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    padding: 0.25rem 1rem;
-    border-radius: 999px;
-    margin-bottom: 0.75rem;
-  }
-  .hero-title {
-    color: #fff;
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-    font-weight: 700;
-    line-height: 1.5;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
-    margin: 0;
-  }
-
-  .main-content {
-    background: #F7FAF4;
-    min-height: 60vh;
-    padding: 2.5rem 1.5rem 4rem;
-  }
-
-  .article-card {
-    max-width: 720px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 12px;
-    padding: 2rem 2.5rem;
-    box-shadow: 0 2px 12px rgba(92,138,60,0.08);
-    border-top: 4px solid #5C8A3C;
-  }
-
-  .article-meta {
-    margin-bottom: 0.75rem;
-  }
-  .article-date {
-    font-size: 0.85rem;
-    color: #7ab356;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-  }
-
-  .article-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #3a5a25;
-    border-bottom: 2px dashed #c8e0b0;
-    padding-bottom: 0.75rem;
-    margin: 0 0 1.5rem;
-    line-height: 1.6;
-  }
-
-  .article-body {
-    font-size: 1rem;
-    color: #444;
-    line-height: 1.9;
-  }
-  .article-body p {
-    margin-bottom: 1.2em;
-  }
-  .article-body strong {
-    color: #5C8A3C;
-    font-weight: 700;
-  }
-
-  .back-link-wrap {
-    max-width: 720px;
-    margin: 2rem auto 0;
-    text-align: left;
-  }
-  .back-button {
-    display: inline-block;
-    background: #5C8A3C;
-    color: #fff;
-    text-decoration: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    transition: background 0.2s ease, transform 0.15s ease;
-    box-shadow: 0 2px 8px rgba(92,138,60,0.25);
-  }
-  .back-button:hover {
-    background: #4a7230;
-    transform: translateX(-2px);
-  }
-</style>
 </html>
