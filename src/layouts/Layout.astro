@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-interface Props { title: string; }
 const { title } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -11,28 +10,63 @@ const { title } = Astro.props;
   <title>{title} | うちのこ漢方</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #F7FAF4; color: #2d2d2d; min-height: 100vh; display: flex; flex-direction: column; }
-    header { position: sticky; top: 0; z-index: 100; background: rgba(247,250,244,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(92,138,60,0.2); }
-    .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .site-title a { text-decoration: none; font-size: 1.3rem; font-weight: 700; color: #5C8A3C; letter-spacing: 0.05em; }
-    nav ul { list-style: none; display: flex; gap: 2rem; }
-    nav a { text-decoration: none; color: #3a3a3a; font-size: 0.97rem; font-weight: 500; position: relative; padding-bottom: 4px; transition: color 0.2s; }
-    nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #5C8A3C; border-radius: 2px; transition: width 0.3s ease; }
-    nav a:hover { color: #5C8A3C; }
-    nav a:hover::after, nav a.active::after { width: 100%; }
-    nav a.active { color: #5C8A3C; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 26px; height: 2px; background: #5C8A3C; border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-nav { display: none; background: rgba(247,250,244,0.97); border-top: 1px solid rgba(92,138,60,0.15); }
-    .mobile-nav.open { display: block; }
-    .mobile-nav ul { list-style: none; padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0; }
-    .mobile-nav a { display: block; padding: 0.8rem 0; color: #3a3a3a; text-decoration: none; font-size: 1rem; border-bottom: 1px solid rgba(92,138,60,0.1); transition: color 0.2s; }
-    .mobile-nav a:hover { color: #5C8A3C; }
-    main { flex: 1; max-width: 1100px; width: 100%; margin: 0 auto; padding: 2.5rem 1.5rem; }
-    footer { background: #5C8A3C; color: #fff; text-align: center; padding: 1.5rem 1rem; font-size: 0.85rem; letter-spacing: 0.03em; }
+    body { font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: #F7FAF4; color: #2d3a22; line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247,250,244,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #d4e8c2;
+      padding: 0 1.5rem;
+    }
+    .header-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .site-name {
+      font-size: 1.25rem; font-weight: 700;
+      color: #5C8A3C; letter-spacing: 0.05em;
+    }
+    nav { display: flex; gap: 2rem; }
+    .nav-link {
+      position: relative; font-size: 0.95rem; color: #3a5c22;
+      padding-bottom: 4px; font-weight: 500;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: 0; height: 2px; background: #5C8A3C;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: #5C8A3C; border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .mobile-nav {
+      display: none; flex-direction: column;
+      background: rgba(247,250,244,0.97);
+      border-top: 1px solid #d4e8c2;
+      padding: 1rem 1.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e4f0d8;
+      color: #3a5c22; font-weight: 500;
+    }
+    main { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem; min-height: calc(100vh - 128px); }
+    footer {
+      background: #5C8A3C; color: #fff;
+      text-align: center; padding: 1.5rem 1rem;
+      font-size: 0.85rem; letter-spacing: 0.03em;
+    }
     @media (max-width: 640px) {
       nav { display: none; }
       .hamburger { display: flex; }
@@ -42,22 +76,18 @@ const { title } = Astro.props;
 <body>
   <header>
     <div class="header-inner">
-      <div class="site-title"><a href="/">うちのこ漢方</a></div>
+      <a href="/" class="site-name">🌿 うちのこ漢方</a>
       <nav>
-        <ul>
-          <li><a href="/index">ホーム</a></li>
-          <li><a href="/news">お知らせ</a></li>
-        </ul>
+        <a href="/index" class="nav-link">ホーム</a>
+        <a href="/news" class="nav-link">お知らせ</a>
       </nav>
-      <button class="hamburger" id="hamburger" aria-label="メニュー">
+      <button class="hamburger" id="menuBtn" aria-label="メニュー">
         <span></span><span></span><span></span>
       </button>
     </div>
     <div class="mobile-nav" id="mobileNav">
-      <ul>
-        <li><a href="/index">ホーム</a></li>
-        <li><a href="/news">お知らせ</a></li>
-      </ul>
+      <a href="/index">ホーム</a>
+      <a href="/news">お知らせ</a>
     </div>
   </header>
   <main>
@@ -67,15 +97,9 @@ const { title } = Astro.props;
     <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
   </footer>
   <script>
-    const btn = document.getElementById('hamburger');
+    const btn = document.getElementById('menuBtn');
     const nav = document.getElementById('mobileNav');
-    btn?.addEventListener('click', () => {
-      btn.classList.toggle('open');
-      nav?.classList.toggle('open');
-    });
-    document.querySelectorAll('nav a, .mobile-nav a').forEach(a => {
-      if (a.getAttribute('href') === location.pathname) a.classList.add('active');
-    });
+    btn?.addEventListener('click', () => nav?.classList.toggle('open'));
   </script>
 </body>
 </html>

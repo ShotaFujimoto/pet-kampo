@@ -33,52 +33,53 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 ---
 <Layout title={`${frontmatter.title} | うちのこ漢方`}>
   <div class="hero-banner">
-    <div class="hero-inner">
-      <p class="hero-label">お知らせ</p>
-      <h1 class="hero-title">{frontmatter.title}</h1>
+    <div class="banner-inner">
+      <p class="banner-label">お知らせ</p>
+      <h1 class="banner-title">{frontmatter.title}</h1>
     </div>
   </div>
 
   <main class="main-content">
     <article class="article-card">
-      <div class="meta-bar">
+      <div class="meta-row">
         <time class="article-date" datetime={frontmatter.date}>
-          📅 {frontmatter.date}
+          {frontmatter.date}
         </time>
       </div>
       <h2 class="article-title">{frontmatter.title}</h2>
+      <hr class="divider" />
       <div class="article-body" set:html={htmlBody} />
     </article>
 
-    <div class="back-wrap">
-      <a href="/news" class="back-btn">← お知らせ一覧に戻る</a>
+    <div class="back-link-wrap">
+      <a href="/news" class="back-button">← お知らせ一覧に戻る</a>
     </div>
   </main>
 </Layout>
 
 <style>
   .hero-banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7aab55 60%, #a8cc80 100%);
-    padding: 3rem 1.5rem;
+    background: linear-gradient(135deg, #5C8A3C 0%, #7AAF55 60%, #9DC76B 100%);
+    padding: 56px 24px 48px;
     text-align: center;
   }
-  .hero-inner {
+  .banner-inner {
     max-width: 720px;
     margin: 0 auto;
   }
-  .hero-label {
+  .banner-label {
     display: inline-block;
     background: rgba(255,255,255,0.25);
     color: #fff;
     font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    padding: 0.25rem 1rem;
-    border-radius: 999px;
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.12em;
+    padding: 4px 16px;
+    border-radius: 20px;
+    margin-bottom: 14px;
   }
-  .hero-title {
+  .banner-title {
     color: #fff;
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
     font-weight: 700;
     line-height: 1.5;
     text-shadow: 0 1px 4px rgba(0,0,0,0.15);
@@ -87,70 +88,76 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
   .main-content {
     background: #F7FAF4;
     min-height: 60vh;
-    padding: 2.5rem 1.5rem 4rem;
+    padding: 48px 24px 72px;
   }
   .article-card {
     max-width: 720px;
     margin: 0 auto;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(92,138,60,0.08);
-    padding: 2rem 2.5rem;
+    box-shadow: 0 2px 16px rgba(92,138,60,0.10);
+    padding: 40px 40px 48px;
   }
-  .meta-bar {
-    margin-bottom: 1rem;
+  .meta-row {
+    margin-bottom: 12px;
   }
   .article-date {
     display: inline-block;
-    background: #F0F7EB;
+    background: #EEF5E8;
     color: #5C8A3C;
     font-size: 0.85rem;
     font-weight: 600;
-    padding: 0.3rem 0.9rem;
-    border-radius: 6px;
-    border-left: 3px solid #5C8A3C;
+    letter-spacing: 0.06em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid #c4ddb0;
   }
   .article-title {
-    font-size: 1.35rem;
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
     font-weight: 700;
     color: #2d4a1e;
-    line-height: 1.6;
-    margin: 0 0 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px dashed #c8e0b4;
+    line-height: 1.55;
+    margin: 0 0 20px;
+  }
+  .divider {
+    border: none;
+    border-top: 2px solid #d6eac4;
+    margin: 0 0 28px;
   }
   .article-body {
-    color: #3d3d2e;
+    color: #3d3d3d;
     font-size: 1rem;
     line-height: 1.9;
   }
-  .article-body :global(strong) {
+  .article-body strong {
     color: #5C8A3C;
     font-weight: 700;
   }
-  .article-body :global(p) {
-    margin-bottom: 1.2em;
-  }
-  .back-wrap {
+  .back-link-wrap {
     max-width: 720px;
-    margin: 2rem auto 0;
+    margin: 36px auto 0;
     text-align: left;
   }
-  .back-btn {
+  .back-button {
     display: inline-block;
+    background: #fff;
+    color: #5C8A3C;
+    border: 2px solid #5C8A3C;
+    border-radius: 30px;
+    padding: 10px 28px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .back-button:hover {
     background: #5C8A3C;
     color: #fff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 0.65rem 1.6rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
-    box-shadow: 0 2px 8px rgba(92,138,60,0.2);
   }
-  .back-btn:hover {
-    background: #4a7030;
-    transform: translateX(-3px);
+  @media (max-width: 600px) {
+    .article-card {
+      padding: 28px 20px 36px;
+    }
   }
 </style>
 </html>
