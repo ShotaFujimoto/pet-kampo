@@ -18,320 +18,266 @@ if (existsSync(newsDir)) {
 }
 ---
 
-<Layout title="お知らせ | うちのこ漢方">
-  <div class="news-page">
+<Layout title="お知らせ一覧 | うちのこ漢方">
+  <div class="page-wrapper">
 
-    <div class="page-banner">
-      <div class="banner-inner">
-        <div class="banner-decoration left">
-          <span class="leaf">🌿</span>
+    <div class="hero-banner">
+      <div class="hero-inner">
+        <div class="hero-leaf hero-leaf--left">🌿</div>
+        <div class="hero-text">
+          <p class="hero-sub">うちのこ漢方からのお知らせ</p>
+          <h1 class="hero-title">お知らせ</h1>
+          <div class="hero-line"></div>
         </div>
-        <div class="banner-text">
-          <p class="banner-sub">Information</p>
-          <h1 class="banner-title">お知らせ</h1>
-          <div class="banner-line"></div>
-          <p class="banner-desc">うちのこ漢方からの最新情報をお届けします</p>
-        </div>
-        <div class="banner-decoration right">
-          <span class="leaf">🌿</span>
-        </div>
+        <div class="hero-leaf hero-leaf--right">🌿</div>
       </div>
     </div>
 
-    <div class="news-container">
-      {newsList.length === 0 ? (
-        <div class="empty-state">
-          <div class="empty-icon">🌱</div>
-          <p class="empty-title">現在お知らせはございません</p>
-          <p class="empty-desc">新しいお知らせが届き次第、こちらに掲載いたします。<br />またのご確認をお待ちしております。</p>
-        </div>
-      ) : (
-        <ul class="news-list">
-          {newsList.map((news: any) => {
-            const dateObj = new Date(news.date);
-            const year = dateObj.getFullYear();
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            const dateStr = `${year}.${month}.${day}`;
-            return (
-              <li class="news-item">
-                <a href={`/news/${news.slug}`} class="news-link">
-                  <div class="news-card">
-                    <div class="news-meta">
-                      <span class="news-date">{dateStr}</span>
-                      {news.category && (
-                        <span class="news-category">{news.category}</span>
-                      )}
-                    </div>
-                    <p class="news-title">{news.title}</p>
-                    <span class="news-arrow">→</span>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
+    <main class="main-content">
+      <div class="container">
 
+        {newsList.length === 0 ? (
+          <div class="empty-state">
+            <div class="empty-icon">🍃</div>
+            <p class="empty-title">現在お知らせはありません</p>
+            <p class="empty-desc">新しいお知らせがある際にはこちらでご案内いたします。</p>
+          </div>
+        ) : (
+          <ul class="news-list">
+            {newsList.map((news: any) => {
+              const dateObj = new Date(news.date);
+              const y = dateObj.getFullYear();
+              const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+              const d = String(dateObj.getDate()).padStart(2, '0');
+              const dateStr = `${y}.${m}.${d}`;
+              return (
+                <li class="news-item">
+                  <a href={`/news/${news.slug}`} class="news-link">
+                    <span class="news-date">{dateStr}</span>
+                    {news.category && (
+                      <span class="news-category">{news.category}</span>
+                    )}
+                    <span class="news-title">{news.title}</span>
+                    <span class="news-arrow">→</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+      </div>
+    </main>
   </div>
 </Layout>
 
 <style>
-  .news-page {
+  .page-wrapper {
     background-color: #F7FAF4;
     min-height: 100vh;
-    padding-bottom: 80px;
   }
 
-  /* ─── Banner ─── */
-  .page-banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7aaa54 60%, #a8cc82 100%);
-    padding: 60px 20px 50px;
+  /* ── Hero Banner ── */
+  .hero-banner {
+    background: linear-gradient(135deg, #5C8A3C 0%, #7aab52 60%, #8fbe65 100%);
+    padding: 56px 24px 48px;
     position: relative;
     overflow: hidden;
   }
 
-  .page-banner::before {
+  .hero-banner::before {
     content: '';
     position: absolute;
     bottom: -1px;
     left: 0;
     width: 100%;
-    height: 30px;
+    height: 32px;
     background: #F7FAF4;
     clip-path: ellipse(55% 100% at 50% 100%);
   }
 
-  .banner-inner {
+  .hero-inner {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 16px;
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
   }
 
-  .banner-decoration {
-    opacity: 0.5;
+  .hero-leaf {
     font-size: 2rem;
+    opacity: 0.75;
+    user-select: none;
   }
 
-  .banner-decoration.right .leaf {
-    display: inline-block;
+  .hero-leaf--left {
     transform: scaleX(-1);
   }
 
-  .banner-sub {
-    font-size: 0.8rem;
-    letter-spacing: 0.25em;
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0 0 8px;
-    font-family: 'Georgia', serif;
+  .hero-text {
+    text-align: center;
   }
 
-  .banner-title {
+  .hero-sub {
+    color: rgba(255,255,255,0.82);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    margin: 0 0 6px;
+    font-weight: 400;
+  }
+
+  .hero-title {
+    color: #ffffff;
     font-size: 2.2rem;
     font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 12px;
-    letter-spacing: 0.1em;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin: 0 0 10px;
+    letter-spacing: 0.08em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
   }
 
-  .banner-line {
+  .hero-line {
     width: 48px;
     height: 2px;
     background: rgba(255,255,255,0.6);
-    margin: 0 auto 12px;
+    margin: 0 auto;
     border-radius: 2px;
   }
 
-  .banner-desc {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin: 0;
-    letter-spacing: 0.05em;
+  /* ── Main Content ── */
+  .main-content {
+    padding: 48px 24px 80px;
   }
 
-  /* ─── Container ─── */
-  .news-container {
+  .container {
     max-width: 760px;
     margin: 0 auto;
-    padding: 48px 20px 0;
   }
 
-  /* ─── Empty State ─── */
-  .empty-state {
-    text-align: center;
-    padding: 80px 20px;
-    background: #ffffff;
-    border-radius: 16px;
-    border: 2px dashed #c6ddb8;
-  }
-
-  .empty-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    display: block;
-  }
-
-  .empty-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #5C8A3C;
-    margin: 0 0 12px;
-  }
-
-  .empty-desc {
-    font-size: 0.9rem;
-    color: #7a8f70;
-    line-height: 1.8;
-    margin: 0;
-  }
-
-  /* ─── News List ─── */
+  /* ── News List ── */
   .news-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 0;
   }
 
   .news-item {
-    border-radius: 12px;
-    overflow: hidden;
+    border-bottom: 1px solid #d8e8ce;
+  }
+
+  .news-item:first-child {
+    border-top: 1px solid #d8e8ce;
   }
 
   .news-link {
-    text-decoration: none;
-    display: block;
-  }
-
-  .news-card {
     display: flex;
     align-items: center;
-    gap: 20px;
-    background: #ffffff;
-    border: 1px solid #ddeecf;
-    border-radius: 12px;
-    padding: 20px 24px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-    position: relative;
+    gap: 16px;
+    padding: 20px 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease, padding-left 0.2s ease;
+    border-radius: 6px;
   }
 
-  .news-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #5C8A3C;
-    border-radius: 12px 0 0 12px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+  .news-link:hover {
+    background: rgba(92, 138, 60, 0.07);
+    padding-left: 20px;
   }
 
-  .news-link:hover .news-card {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(92, 138, 60, 0.15);
-    border-color: #a8cc82;
-    background: #f0f7ea;
-  }
-
-  .news-link:hover .news-card::before {
+  .news-link:hover .news-arrow {
     opacity: 1;
-  }
-
-  .news-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    flex-shrink: 0;
-    min-width: 110px;
+    transform: translateX(3px);
+    color: #5C8A3C;
   }
 
   .news-date {
+    flex-shrink: 0;
     font-size: 0.82rem;
-    color: #7a9e5a;
-    letter-spacing: 0.08em;
+    color: #7a9c6a;
+    letter-spacing: 0.06em;
     font-family: 'Georgia', serif;
-    font-weight: 600;
+    min-width: 84px;
   }
 
   .news-category {
+    flex-shrink: 0;
     font-size: 0.7rem;
-    background: #e8f5df;
     color: #5C8A3C;
-    padding: 2px 10px;
+    background: rgba(92, 138, 60, 0.1);
+    border: 1px solid rgba(92, 138, 60, 0.3);
     border-radius: 20px;
+    padding: 2px 10px;
     letter-spacing: 0.05em;
-    font-weight: 600;
     white-space: nowrap;
   }
 
   .news-title {
     flex: 1;
     font-size: 0.97rem;
-    color: #2e4a1e;
-    line-height: 1.65;
-    margin: 0;
+    color: #2d4a1e;
     font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .news-link:hover .news-title {
-    color: #5C8A3C;
+    line-height: 1.5;
   }
 
   .news-arrow {
-    font-size: 1rem;
-    color: #a8cc82;
     flex-shrink: 0;
-    transition: transform 0.2s ease, color 0.2s ease;
+    font-size: 0.9rem;
+    color: #aac99a;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
   }
 
-  .news-link:hover .news-arrow {
-    transform: translateX(4px);
-    color: #5C8A3C;
+  /* ── Empty State ── */
+  .empty-state {
+    text-align: center;
+    padding: 80px 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #d8e8ce;
+    box-shadow: 0 2px 12px rgba(92,138,60,0.06);
   }
 
-  /* ─── Responsive ─── */
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  .empty-title {
+    font-size: 1.05rem;
+    color: #4a7030;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .empty-desc {
+    font-size: 0.88rem;
+    color: #7a9c6a;
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 600px) {
-    .banner-title {
+    .hero-title {
       font-size: 1.7rem;
     }
-
-    .banner-decoration {
-      display: none;
+    .hero-leaf {
+      font-size: 1.4rem;
     }
-
-    .news-card {
+    .news-link {
       flex-wrap: wrap;
-      gap: 12px;
-      padding: 16px 18px;
+      gap: 6px;
     }
-
-    .news-meta {
-      flex-direction: row;
-      align-items: center;
+    .news-date {
       min-width: auto;
     }
-
     .news-arrow {
-      position: absolute;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .news-link:hover .news-arrow {
-      transform: translateY(-50%) translateX(4px);
+      display: none;
     }
   }
 </style>

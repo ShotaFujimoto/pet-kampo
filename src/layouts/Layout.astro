@@ -1,6 +1,10 @@
 ---
 import '../styles/global.css';
 
+interface Props {
+  title: string;
+}
+
 const { title } = Astro.props;
 ---
 
@@ -13,311 +17,304 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-      :root {
-        --color-main: #5C8A3C;
-        --color-main-dark: #4a7030;
-        --color-main-light: #7aaa55;
-        --color-bg: #F7FAF4;
-        --color-text: #2e2e2e;
-        --color-text-muted: #666;
-        --color-header-bg: rgba(247, 250, 244, 0.85);
-        --color-footer-bg: #2e3d26;
-        --color-footer-text: #d4e8c8;
-        --font-serif: 'Noto Serif JP', serif;
-        --font-sans: 'Noto Sans JP', sans-serif;
-        --header-height: 68px;
-        --radius: 6px;
-        --transition: 0.25s ease;
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
-      html { scroll-behavior: smooth; }
+      html {
+        scroll-behavior: smooth;
+      }
 
       body {
-        font-family: var(--font-sans);
-        background-color: var(--color-bg);
-        color: var(--color-text);
-        line-height: 1.8;
-        font-size: 16px;
+        font-family: 'Noto Sans JP', sans-serif;
         font-weight: 300;
+        background-color: #F7FAF4;
+        color: #2d3a1f;
+        line-height: 1.85;
+        letter-spacing: 0.03em;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
 
-      /* ─── HEADER ─── */
-      .site-header {
+      /* ===== HEADER ===== */
+      header {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        z-index: 1000;
-        height: var(--header-height);
-        background: var(--color-header-bg);
+        z-index: 100;
+        background: rgba(247, 250, 244, 0.82);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(92, 138, 60, 0.15);
-        box-shadow: 0 2px 16px rgba(92, 138, 60, 0.08);
+        border-bottom: 1px solid rgba(92, 138, 60, 0.18);
+        box-shadow: 0 2px 16px rgba(92, 138, 60, 0.07);
       }
 
       .header-inner {
-        max-width: 1080px;
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 0 24px;
-        height: 100%;
+        padding: 0 1.5rem;
+        height: 64px;
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
 
-      .site-logo a {
-        font-family: var(--font-serif);
-        font-size: 1.35rem;
-        font-weight: 700;
-        color: var(--color-main);
+      /* ===== LOGO ===== */
+      .site-logo {
         text-decoration: none;
-        letter-spacing: 0.08em;
         display: flex;
         align-items: center;
-        gap: 8px;
-        transition: opacity var(--transition);
+        gap: 0.45rem;
+        line-height: 1;
       }
 
-      .site-logo a:hover { opacity: 0.75; }
-
-      .logo-leaf {
-        display: inline-block;
-        width: 28px;
-        height: 28px;
-        background: var(--color-main);
-        border-radius: 50% 0 50% 0;
-        flex-shrink: 0;
-        position: relative;
-      }
-
-      .logo-leaf::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 10px;
-        height: 10px;
+      .site-logo-icon {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #5C8A3C 60%, #8ab86a 100%);
         border-radius: 50%;
-        background: var(--color-bg);
-        opacity: 0.7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
       }
 
-      /* ─── PC NAV ─── */
-      .pc-nav { display: flex; gap: 4px; }
+      .site-logo-icon svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+      }
 
-      .pc-nav a {
-        font-family: var(--font-sans);
-        font-size: 0.92rem;
-        font-weight: 400;
-        color: var(--color-text);
-        text-decoration: none;
-        padding: 6px 16px;
-        border-radius: var(--radius);
+      .site-logo-text {
+        font-family: 'Noto Serif JP', serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #3a5c20;
+        letter-spacing: 0.08em;
+      }
+
+      .site-logo-text span {
+        color: #5C8A3C;
+      }
+
+      /* ===== NAV ===== */
+      nav.desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      nav.desktop-nav a {
         position: relative;
-        transition: color var(--transition), background var(--transition);
-        letter-spacing: 0.04em;
+        text-decoration: none;
+        font-family: 'Noto Sans JP', sans-serif;
+        font-weight: 400;
+        font-size: 0.92rem;
+        color: #3a5c20;
+        padding: 0.45rem 0.85rem;
+        border-radius: 6px;
+        letter-spacing: 0.05em;
+        transition: color 0.22s ease, background 0.22s ease;
+        overflow: hidden;
       }
 
-      .pc-nav a::after {
+      nav.desktop-nav a::after {
         content: '';
         position: absolute;
-        bottom: 2px;
-        left: 16px;
-        right: 16px;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 60%;
         height: 2px;
-        background: var(--color-main);
+        background: #5C8A3C;
         border-radius: 2px;
-        transform: scaleX(0);
-        transform-origin: center;
-        transition: transform var(--transition);
+        transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      .pc-nav a:hover {
-        color: var(--color-main);
+      nav.desktop-nav a:hover {
+        color: #5C8A3C;
         background: rgba(92, 138, 60, 0.08);
       }
 
-      .pc-nav a:hover::after { transform: scaleX(1); }
+      nav.desktop-nav a:hover::after {
+        transform: translateX(-50%) scaleX(1);
+      }
 
-      /* ─── HAMBURGER ─── */
+      /* ===== HAMBURGER ===== */
       .hamburger-btn {
         display: none;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        width: 40px;
-        height: 40px;
         background: none;
         border: none;
         cursor: pointer;
-        padding: 6px;
-        border-radius: var(--radius);
-        transition: background var(--transition);
+        padding: 0.4rem;
+        border-radius: 6px;
+        color: #3a5c20;
+        transition: background 0.2s;
       }
 
-      .hamburger-btn:hover { background: rgba(92, 138, 60, 0.1); }
+      .hamburger-btn:hover {
+        background: rgba(92, 138, 60, 0.1);
+      }
 
-      .hamburger-btn span {
+      .hamburger-btn svg {
+        width: 26px;
+        height: 26px;
         display: block;
-        height: 2px;
-        background: var(--color-main);
-        border-radius: 2px;
-        transition: transform var(--transition), opacity var(--transition);
-        transform-origin: center;
       }
 
-      .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      .hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-      .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-      /* ─── MOBILE MENU ─── */
+      /* ===== MOBILE MENU ===== */
       .mobile-menu {
         position: fixed;
-        top: var(--header-height);
+        top: 64px;
         left: 0;
         right: 0;
         background: rgba(247, 250, 244, 0.97);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
         border-bottom: 1px solid rgba(92, 138, 60, 0.15);
         box-shadow: 0 8px 24px rgba(92, 138, 60, 0.1);
-        z-index: 999;
-        overflow: hidden;
+        padding: 1rem 1.5rem 1.5rem;
+        z-index: 99;
       }
 
       .mobile-menu a {
         display: block;
-        font-family: var(--font-sans);
-        font-size: 1rem;
-        font-weight: 400;
-        color: var(--color-text);
         text-decoration: none;
-        padding: 16px 28px;
-        border-bottom: 1px solid rgba(92, 138, 60, 0.1);
-        letter-spacing: 0.04em;
-        transition: color var(--transition), background var(--transition), padding-left var(--transition);
+        font-family: 'Noto Sans JP', sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        color: #3a5c20;
+        padding: 0.85rem 0.5rem;
+        border-bottom: 1px solid rgba(92, 138, 60, 0.12);
+        letter-spacing: 0.05em;
+        transition: color 0.2s, padding-left 0.2s;
+      }
+
+      .mobile-menu a:last-child {
+        border-bottom: none;
       }
 
       .mobile-menu a:hover {
-        color: var(--color-main);
-        background: rgba(92, 138, 60, 0.07);
-        padding-left: 36px;
+        color: #5C8A3C;
+        padding-left: 1rem;
       }
 
-      /* ─── MAIN ─── */
+      /* ===== MAIN ===== */
       main {
         flex: 1;
-        margin-top: var(--header-height);
-        max-width: 1080px;
+        margin-top: 64px;
         width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 48px 24px 64px;
       }
 
-      /* ─── FOOTER ─── */
-      .site-footer {
-        background: var(--color-footer-bg);
-        color: var(--color-footer-text);
+      /* ===== FOOTER ===== */
+      footer {
+        background: linear-gradient(135deg, #2d3d1a 0%, #3a5020 100%);
+        color: rgba(247, 250, 244, 0.72);
         text-align: center;
-        padding: 28px 24px;
-        font-family: var(--font-sans);
-        font-size: 0.82rem;
+        padding: 2.2rem 1.5rem;
+        font-family: 'Noto Sans JP', sans-serif;
         font-weight: 300;
+        font-size: 0.82rem;
         letter-spacing: 0.06em;
-        line-height: 1.6;
-        border-top: 3px solid var(--color-main);
+        line-height: 1.7;
       }
 
-      .footer-logo {
-        font-family: var(--font-serif);
+      footer .footer-logo {
+        font-family: 'Noto Serif JP', serif;
+        font-weight: 700;
         font-size: 1rem;
-        font-weight: 500;
-        color: #a8d48a;
-        margin-bottom: 8px;
+        color: rgba(247, 250, 244, 0.9);
         letter-spacing: 0.1em;
+        margin-bottom: 0.6rem;
+        display: block;
       }
 
-      /* ─── RESPONSIVE ─── */
-      @media (max-width: 640px) {
-        :root { --header-height: 60px; }
-        .pc-nav { display: none; }
-        .hamburger-btn { display: flex; }
-        .site-logo a { font-size: 1.15rem; }
-        main { padding: 32px 16px 48px; }
+      footer .footer-copy {
+        color: rgba(247, 250, 244, 0.52);
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 680px) {
+        nav.desktop-nav {
+          display: none;
+        }
+
+        .hamburger-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .site-logo-text {
+          font-size: 1.08rem;
+        }
       }
     </style>
   </head>
   <body>
 
-    <!-- HEADER -->
-    <header class="site-header">
-      <div class="header-inner" x-data="{ open: false }">
+    <header x-data="{ open: false }">
+      <div class="header-inner">
 
-        <div class="site-logo">
-          <a href="/">
-            <span class="logo-leaf" aria-hidden="true"></span>
-            うちのこ漢方
-          </a>
-        </div>
+        <a href="/" class="site-logo" aria-label="うちのこ漢方 ホームへ">
+          <div class="site-logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C9.5 5 6 7.5 6 11a6 6 0 0012 0c0-3.5-3.5-6-6-9zm0 14a4 4 0 01-4-4c0-2.2 2-4.2 4-6.5 2 2.3 4 4.3 4 6.5a4 4 0 01-4 4z"/>
+            </svg>
+          </div>
+          <span class="site-logo-text">うちのこ<span>漢方</span></span>
+        </a>
 
-        <!-- PC NAV -->
-        <nav class="pc-nav" aria-label="メインナビゲーション">
+        <nav class="desktop-nav" aria-label="メインナビゲーション">
           <a href="/index">ホーム</a>
           <a href="/news">お知らせ</a>
         </nav>
 
-        <!-- HAMBURGER -->
         <button
           class="hamburger-btn"
-          :class="{ open: open }"
-          @click="open = !open"
-          :aria-expanded="open"
           aria-label="メニューを開く"
+          aria-expanded="false"
+          @click="open = !open"
+          :aria-expanded="open.toString()"
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <template x-if="!open">
+              <g>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </g>
+            </template>
+            <template x-if="open">
+              <g>
+                <line x1="5" y1="5" x2="19" y2="19"/>
+                <line x1="19" y1="5" x2="5" y2="19"/>
+              </g>
+            </template>
+          </svg>
         </button>
 
-        <!-- MOBILE MENU -->
-        <nav
-          class="mobile-menu"
-          x-show="open"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0 -translate-y-2"
-          x-transition:enter-end="opacity-100 translate-y-0"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100 translate-y-0"
-          x-transition:leave-end="opacity-0 -translate-y-2"
-          @click.outside="open = false"
-          aria-label="モバイルナビゲーション"
-        >
-          <a href="/index" @click="open = false">ホーム</a>
-          <a href="/news" @click="open = false">お知らせ</a>
-        </nav>
+      </div>
 
+      <div class="mobile-menu" x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" @click.outside="open = false" style="display:none;">
+        <a href="/index" @click="open = false">ホーム</a>
+        <a href="/news" @click="open = false">お知らせ</a>
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main>
       <slot />
     </main>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      <p class="footer-logo">うちのこ漢方</p>
-      <p>&copy; 2024 うちのこ漢方. All rights reserved.</p>
+    <footer>
+      <span class="footer-logo">うちのこ漢方</span>
+      <p class="footer-copy">&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
     </footer>
 
   </body>
