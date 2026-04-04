@@ -13,8 +13,6 @@ const { title } = Astro.props;
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #F7FAF4; color: #2d2d2d; line-height: 1.7; }
     a { text-decoration: none; color: inherit; }
-
-    /* Header */
     header {
       position: sticky; top: 0; z-index: 100;
       background: rgba(247,250,244,0.85);
@@ -24,71 +22,60 @@ const { title } = Astro.props;
       padding: 0 1.5rem;
     }
     .header-inner {
-      max-width: 1100px; margin: 0 auto;
+      max-width: 1000px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
+      height: 60px;
     }
-    .site-logo {
-      font-size: 1.25rem; font-weight: 700;
+    .site-name a {
+      font-size: 1.2rem; font-weight: 700;
       color: #5C8A3C; letter-spacing: 0.05em;
     }
-    .site-logo:hover { opacity: 0.8; }
-
-    /* Nav */
-    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul {
+      list-style: none; display: flex; gap: 2rem;
+    }
     nav ul li a {
       position: relative; font-size: 0.95rem;
       color: #3a3a3a; padding-bottom: 4px;
     }
     nav ul li a::after {
-      content: ''; position: absolute; bottom: 0; left: 0;
-      width: 0; height: 2px; background: #5C8A3C;
+      content: ''; position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background: #5C8A3C;
       transition: width 0.3s ease;
     }
     nav ul li a:hover::after,
     nav ul li a.active::after { width: 100%; }
-    nav ul li a:hover { color: #5C8A3C; }
-
-    /* Hamburger */
+    nav ul li a.active { color: #5C8A3C; font-weight: 600; }
     .hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: pointer; padding: 4px;
+      display: none; flex-direction: column;
+      gap: 5px; cursor: pointer;
+      background: none; border: none; padding: 4px;
     }
     .hamburger span {
       display: block; width: 24px; height: 2px;
-      background: #5C8A3C; transition: all 0.3s ease;
+      background: #5C8A3C; border-radius: 2px;
+      transition: all 0.3s;
     }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* Mobile nav */
     .mobile-nav {
-      display: none; position: absolute; top: 64px; left: 0; right: 0;
+      display: none; flex-direction: column;
       background: rgba(247,250,244,0.97);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #d4e8c2;
+      border-top: 1px solid #d4e8c2;
       padding: 1rem 1.5rem;
     }
-    .mobile-nav.open { display: block; }
-    .mobile-nav ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
-    .mobile-nav ul li a {
-      font-size: 1rem; color: #3a3a3a;
-      display: block; padding: 0.25rem 0;
-      border-bottom: 1px solid #e0ecd4;
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #e4f0d8;
+      color: #3a3a3a; font-size: 1rem;
     }
-    .mobile-nav ul li a:hover { color: #5C8A3C; }
-
-    /* Main */
-    main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; min-height: calc(100vh - 64px - 72px); }
-
-    /* Footer */
+    .mobile-nav a:hover { color: #5C8A3C; }
+    main { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem; min-height: calc(100vh - 130px); }
     footer {
       background: #5C8A3C; color: #fff;
-      text-align: center; padding: 1.5rem 1rem;
-      font-size: 0.85rem; letter-spacing: 0.04em;
+      text-align: center; padding: 1.2rem 1rem;
+      font-size: 0.82rem; letter-spacing: 0.03em;
     }
-
     @media (max-width: 640px) {
       nav { display: none; }
       .hamburger { display: flex; }
@@ -98,45 +85,35 @@ const { title } = Astro.props;
 <body>
   <header>
     <div class="header-inner">
-      <a href="/" class="site-logo">🌿 うちのこ漢方</a>
+      <div class="site-name"><a href="/">うちのこ漢方</a></div>
       <nav>
         <ul>
           <li><a href="/index">ホーム</a></li>
           <li><a href="/news">お知らせ</a></li>
         </ul>
       </nav>
-      <button class="hamburger" id="hamburger" aria-label="メニュー">
+      <button class="hamburger" id="menu-btn" aria-label="メニュー">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="mobile-nav" id="mobileNav">
-      <ul>
-        <li><a href="/index">ホーム</a></li>
-        <li><a href="/news">お知らせ</a></li>
-      </ul>
-    </div>
   </header>
-
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="/index">ホーム</a>
+    <a href="/news">お知らせ</a>
+  </div>
   <main>
     <slot />
   </main>
-
   <footer>
     <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
   </footer>
-
   <script>
-    const btn = document.getElementById('hamburger');
-    const nav = document.getElementById('mobileNav');
-    btn?.addEventListener('click', () => {
-      btn.classList.toggle('open');
-      nav?.classList.toggle('open');
-    });
+    const btn = document.getElementById('menu-btn');
+    const nav = document.getElementById('mobile-nav');
+    btn?.addEventListener('click', () => nav?.classList.toggle('open'));
     const links = document.querySelectorAll('nav a, .mobile-nav a');
     links.forEach(link => {
-      if (link.getAttribute('href') === window.location.pathname) {
-        link.classList.add('active');
-      }
+      if (link.getAttribute('href') === location.pathname) link.classList.add('active');
     });
   </script>
 </body>

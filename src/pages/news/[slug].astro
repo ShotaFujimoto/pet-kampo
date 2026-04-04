@@ -33,17 +33,17 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 ---
 <Layout title={`${frontmatter.title} | うちのこ漢方`}>
   <div class="hero-banner">
-    <div class="banner-inner">
-      <p class="banner-label">お知らせ</p>
-      <h1 class="banner-title">{frontmatter.title}</h1>
+    <div class="hero-inner">
+      <p class="hero-label">お知らせ</p>
+      <h1 class="hero-title">{frontmatter.title}</h1>
     </div>
   </div>
 
   <main class="main-content">
     <article class="article-card">
-      <div class="meta-row">
+      <div class="article-meta">
         <time class="article-date" datetime={frontmatter.date}>
-          {frontmatter.date}
+          📅 {frontmatter.date}
         </time>
       </div>
       <h2 class="article-title">{frontmatter.title}</h2>
@@ -51,107 +51,110 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
     </article>
 
     <div class="back-link-wrap">
-      <a href="/news" class="back-btn">← お知らせ一覧に戻る</a>
+      <a href="/news" class="back-button">← お知らせ一覧に戻る</a>
     </div>
   </main>
-
-  <style>
-    .hero-banner {
-      background: linear-gradient(135deg, #5C8A3C 0%, #7aaa54 60%, #a8cc7e 100%);
-      padding: 3.5rem 1.5rem 3rem;
-      text-align: center;
-    }
-    .banner-inner {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .banner-label {
-      display: inline-block;
-      background: rgba(255,255,255,0.22);
-      color: #fff;
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      padding: 0.25rem 1rem;
-      border-radius: 20px;
-      margin-bottom: 0.9rem;
-    }
-    .banner-title {
-      color: #fff;
-      font-size: clamp(1.3rem, 3vw, 1.9rem);
-      font-weight: 700;
-      line-height: 1.5;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.15);
-      margin: 0;
-    }
-    .main-content {
-      background: #F7FAF4;
-      min-height: 60vh;
-      padding: 2.5rem 1.5rem 4rem;
-    }
-    .article-card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(92,138,60,0.10);
-      max-width: 720px;
-      margin: 0 auto 2rem;
-      padding: 2.2rem 2.4rem;
-    }
-    .meta-row {
-      margin-bottom: 0.7rem;
-    }
-    .article-date {
-      display: inline-block;
-      background: #F7FAF4;
-      color: #5C8A3C;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      padding: 0.22rem 0.9rem;
-      border-radius: 20px;
-      border: 1px solid #c6ddb5;
-    }
-    .article-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #2d4a1e;
-      margin: 0.6rem 0 1.4rem;
-      line-height: 1.55;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid #e4f0d8;
-    }
-    .article-body {
-      color: #3d3d3d;
-      font-size: 1rem;
-      line-height: 1.9;
-    }
-    .article-body :global(strong) {
-      color: #5C8A3C;
-      font-weight: 700;
-    }
-    .article-body :global(p) {
-      margin-bottom: 1.2em;
-    }
-    .back-link-wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: left;
-    }
-    .back-btn {
-      display: inline-block;
-      background: #fff;
-      color: #5C8A3C;
-      border: 2px solid #5C8A3C;
-      border-radius: 25px;
-      padding: 0.55rem 1.6rem;
-      font-size: 0.92rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-    }
-    .back-btn:hover {
-      background: #5C8A3C;
-      color: #fff;
-    }
-  </style>
 </Layout>
+
+<style>
+  .hero-banner {
+    background: linear-gradient(135deg, #5C8A3C 0%, #7ab356 60%, #a8d080 100%);
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  .hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .hero-label {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    padding: 0.25rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    color: #fff;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 700;
+    line-height: 1.5;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    margin: 0;
+  }
+
+  .main-content {
+    background: #F7FAF4;
+    min-height: 60vh;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .article-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 2px 12px rgba(92,138,60,0.08);
+    border-top: 4px solid #5C8A3C;
+  }
+
+  .article-meta {
+    margin-bottom: 0.75rem;
+  }
+  .article-date {
+    font-size: 0.85rem;
+    color: #7ab356;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .article-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #3a5a25;
+    border-bottom: 2px dashed #c8e0b0;
+    padding-bottom: 0.75rem;
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+  }
+
+  .article-body {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.9;
+  }
+  .article-body p {
+    margin-bottom: 1.2em;
+  }
+  .article-body strong {
+    color: #5C8A3C;
+    font-weight: 700;
+  }
+
+  .back-link-wrap {
+    max-width: 720px;
+    margin: 2rem auto 0;
+    text-align: left;
+  }
+  .back-button {
+    display: inline-block;
+    background: #5C8A3C;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: background 0.2s ease, transform 0.15s ease;
+    box-shadow: 0 2px 8px rgba(92,138,60,0.25);
+  }
+  .back-button:hover {
+    background: #4a7230;
+    transform: translateX(-2px);
+  }
+</style>
 </html>
