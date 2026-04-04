@@ -31,31 +31,36 @@ return text
 }
 const htmlBody = `<p>${renderMarkdown(body)}</p>`;
 ---
+
 <Layout title={`${frontmatter.title} | うちのこ漢方`}>
-  <div class="banner">
+  <div class="hero-banner">
     <div class="banner-inner">
       <p class="banner-label">お知らせ</p>
       <h1 class="banner-title">{frontmatter.title}</h1>
     </div>
   </div>
 
-  <main class="main">
-    <article class="article">
+  <div class="container">
+    <article class="article-card">
       <div class="meta">
-        <time class="date" datetime={frontmatter.date}>{frontmatter.date}</time>
+        <time class="date" datetime={frontmatter.date}>
+          {frontmatter.date}
+        </time>
       </div>
-      <h2 class="title">{frontmatter.title}</h2>
-      <div class="body" set:html={htmlBody} />
-      <div class="back-wrap">
-        <a href="/news" class="back-link">← お知らせ一覧に戻る</a>
-      </div>
+      <h2 class="article-title">{frontmatter.title}</h2>
+      <hr class="divider" />
+      <div class="article-body" set:html={htmlBody} />
     </article>
-  </main>
+
+    <div class="back-wrap">
+      <a href="/news" class="back-btn">← お知らせ一覧に戻る</a>
+    </div>
+  </div>
 </Layout>
 
 <style>
-  .banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7aad52 60%, #a8cc82 100%);
+  .hero-banner {
+    background: linear-gradient(135deg, #5C8A3C 0%, #7aab55 60%, #a8cc80 100%);
     padding: 3rem 1.5rem;
     text-align: center;
   }
@@ -68,85 +73,84 @@ const htmlBody = `<p>${renderMarkdown(body)}</p>`;
     background: rgba(255,255,255,0.25);
     color: #fff;
     font-size: 0.8rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     padding: 0.25rem 1rem;
     border-radius: 999px;
     margin-bottom: 0.75rem;
   }
   .banner-title {
     color: #fff;
-    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
     font-weight: 700;
     line-height: 1.5;
-    margin: 0;
     text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    margin: 0;
   }
-  .main {
-    background: #F7FAF4;
-    min-height: 60vh;
-    padding: 3rem 1.5rem 5rem;
-  }
-  .article {
+  .container {
     max-width: 720px;
-    margin: 0 auto;
+    margin: 2.5rem auto 4rem;
+    padding: 0 1.25rem;
+  }
+  .article-card {
     background: #fff;
     border-radius: 12px;
-    padding: 2.5rem 2rem;
     box-shadow: 0 2px 16px rgba(92,138,60,0.08);
+    padding: 2.5rem 2rem;
   }
   .meta {
     margin-bottom: 0.75rem;
   }
   .date {
     display: inline-block;
-    font-size: 0.85rem;
+    background: #F7FAF4;
     color: #5C8A3C;
-    background: #eef5e8;
-    padding: 0.2rem 0.85rem;
-    border-radius: 999px;
-    letter-spacing: 0.05em;
+    font-size: 0.85rem;
     font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid #c4dba8;
   }
-  .title {
-    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-    color: #2d4a1e;
+  .article-title {
+    color: #2d4e1e;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     font-weight: 700;
     line-height: 1.6;
-    margin: 0 0 1.75rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #d6eac8;
+    margin: 0.5rem 0 1rem;
   }
-  .body {
+  .divider {
+    border: none;
+    border-top: 2px solid #e4f0d8;
+    margin-bottom: 1.75rem;
+  }
+  .article-body {
+    color: #3d3d3d;
     font-size: 1rem;
     line-height: 1.9;
-    color: #3d3d3d;
   }
-  .body :global(p) {
-    margin-bottom: 1.25rem;
-  }
-  .body :global(strong) {
+  .article-body :global(strong) {
     color: #5C8A3C;
     font-weight: 700;
   }
   .back-wrap {
-    margin-top: 2.5rem;
-    text-align: left;
+    margin-top: 2rem;
+    text-align: center;
   }
-  .back-link {
+  .back-btn {
     display: inline-block;
-    padding: 0.6rem 1.5rem;
+    background: #fff;
+    color: #5C8A3C;
+    border: 2px solid #5C8A3C;
+    border-radius: 999px;
+    padding: 0.65rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .back-btn:hover {
     background: #5C8A3C;
     color: #fff;
-    text-decoration: none;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .back-link:hover {
-    background: #4a7230;
-    transform: translateX(-3px);
   }
 </style>
 </html>

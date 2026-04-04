@@ -1,7 +1,11 @@
 ---
 import '../styles/global.css';
 const { title } = Astro.props;
-const year = new Date().getFullYear();
+const currentPath = Astro.url.pathname;
+const navItems = [
+  { label: 'ホーム', href: '/index' },
+  { label: 'お知らせ', href: '/news' },
+];
 ---
 <!DOCTYPE html>
 <html lang="ja">
@@ -14,7 +18,7 @@ const year = new Date().getFullYear();
     body {
       font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
       background-color: #F7FAF4;
-      color: #2d2d2d;
+      color: #333;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -26,22 +30,22 @@ const year = new Date().getFullYear();
       background: rgba(247, 250, 244, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(92, 138, 60, 0.2);
+      border-bottom: 1px solid #d4e8c2;
       padding: 0 1.5rem;
     }
     .header-inner {
       max-width: 1100px;
       margin: 0 auto;
-      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      height: 64px;
     }
     .site-logo a {
-      text-decoration: none;
       font-size: 1.3rem;
       font-weight: 700;
       color: #5C8A3C;
+      text-decoration: none;
       letter-spacing: 0.05em;
     }
     nav ul {
@@ -49,36 +53,35 @@ const year = new Date().getFullYear();
       display: flex;
       gap: 2rem;
     }
-    nav ul li a {
+    nav a {
       text-decoration: none;
-      color: #3a3a3a;
+      color: #444;
       font-size: 0.95rem;
       font-weight: 500;
       position: relative;
       padding-bottom: 4px;
       transition: color 0.2s;
     }
-    nav ul li a::after {
+    nav a::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       width: 0;
       height: 2px;
-      background-color: #5C8A3C;
+      background: #5C8A3C;
       transition: width 0.3s ease;
     }
-    nav ul li a:hover { color: #5C8A3C; }
-    nav ul li a:hover::after,
-    nav ul li a.active::after { width: 100%; }
-    nav ul li a.active { color: #5C8A3C; }
+    nav a:hover { color: #5C8A3C; }
+    nav a:hover::after, nav a.active::after { width: 100%; }
+    nav a.active { color: #5C8A3C; font-weight: 700; }
     .hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
-      cursor: pointer;
       background: none;
       border: none;
+      cursor: pointer;
       padding: 4px;
     }
     .hamburger span {
@@ -92,21 +95,22 @@ const year = new Date().getFullYear();
     .mobile-nav {
       display: none;
       flex-direction: column;
+      gap: 0;
       background: rgba(247, 250, 244, 0.97);
-      padding: 1rem 1.5rem 1.5rem;
-      border-top: 1px solid rgba(92,138,60,0.15);
+      border-top: 1px solid #d4e8c2;
+      padding: 1rem 1.5rem;
     }
     .mobile-nav.open { display: flex; }
     .mobile-nav a {
       text-decoration: none;
-      color: #3a3a3a;
+      color: #444;
       font-size: 1rem;
       font-weight: 500;
       padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(92,138,60,0.1);
+      border-bottom: 1px solid #e5f0da;
       transition: color 0.2s;
     }
-    .mobile-nav a:hover { color: #5C8A3C; }
+    .mobile-nav a:hover, .mobile-nav a.active { color: #5C8A3C; font-weight: 700; }
     main {
       flex: 1;
       max-width: 1100px;
@@ -115,16 +119,17 @@ const year = new Date().getFullYear();
       padding: 2.5rem 1.5rem;
     }
     footer {
-      background-color: #5C8A3C;
+      background: #5C8A3C;
       color: #fff;
       text-align: center;
       padding: 1.25rem 1rem;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       letter-spacing: 0.03em;
     }
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       nav ul { display: none; }
       .hamburger { display: flex; }
+      main { padding: 2rem 1rem; }
     }
   </style>
 </head>
@@ -134,34 +139,38 @@ const year = new Date().getFullYear();
       <div class="site-logo"><a href="/">うちのこ漢方</a></div>
       <nav>
         <ul>
-          <li><a href="/index">ホーム</a></li>
-          <li><a href="/news">お知らせ</a></li>
+          {navItems.map(item => (
+            <li>
+              <a href={item.href} class={currentPath === item.href ? 'active' : ''}>
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
-      <button class="hamburger" id="menuBtn" aria-label="メニュー">
+      <button class="hamburger" id="hamburger" aria-label="メニュー">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="/index">ホーム</a>
-      <a href="/news">お知らせ</a>
+    <div class="mobile-nav" id="mobile-nav">
+      {navItems.map(item => (
+        <a href={item.href} class={currentPath === item.href ? 'active' : ''}>
+          {item.label}
+        </a>
+      ))}
     </div>
   </header>
   <main>
     <slot />
   </main>
   <footer>
-    <p>&copy; {year} うちのこ漢方. All rights reserved.</p>
+    <p>&copy; {new Date().getFullYear()} うちのこ漢方. All rights reserved.</p>
   </footer>
   <script>
-    const btn = document.getElementById('menuBtn');
-    const nav = document.getElementById('mobileNav');
-    btn?.addEventListener('click', () => nav?.classList.toggle('open'));
-    const links = document.querySelectorAll('nav ul li a, .mobile-nav a');
-    links.forEach(link => {
-      if (link.getAttribute('href') === location.pathname) {
-        link.classList.add('active');
-      }
+    const btn = document.getElementById('hamburger');
+    const menu = document.getElementById('mobile-nav');
+    btn?.addEventListener('click', () => {
+      menu?.classList.toggle('open');
     });
   </script>
 </body>

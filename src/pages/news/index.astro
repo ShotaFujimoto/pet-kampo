@@ -17,155 +17,128 @@ if (existsSync(newsDir)) {
   .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 ---
-<Layout title="お知らせ | うちのこ漢方">
-  <div class="page-wrapper">
-    <div class="hero-banner">
-      <div class="hero-inner">
-        <p class="hero-sub">NEWS</p>
-        <h1 class="hero-title">お知らせ</h1>
-        <p class="hero-desc">うちのこ漢方からの最新情報をお届けします</p>
-      </div>
-    </div>
 
-    <main class="main-content">
-      {newsList.length > 0 ? (
-        <ul class="news-list">
-          {newsList.map((news: any) => (
-            <li class="news-card">
-              <a href={`/news/${news.slug}`} class="card-link">
-                <span class="date-badge">
-                  {new Date(news.date).toLocaleDateString('ja-JP', {
-                    year: 'numeric', month: '2-digit', day: '2-digit'
-                  })}
-                </span>
-                <span class="card-title">{news.title}</span>
-                <span class="card-arrow">→</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div class="empty-state">
-          <div class="empty-icon">🌿</div>
-          <p class="empty-title">まだお知らせはありません</p>
-          <p class="empty-desc">新しい情報が届いたら、こちらでお伝えします。</p>
-        </div>
-      )}
-    </main>
+<Layout title="お知らせ | うちのこ漢方">
+  <div class="banner">
+    <h1>お知らせ</h1>
+    <p>うちのこ漢方からの最新情報をお届けします</p>
   </div>
+
+  <main class="container">
+    {newsList.length === 0 ? (
+      <div class="empty">
+        <div class="empty-icon">🌿</div>
+        <p class="empty-title">現在お知らせはありません</p>
+        <p class="empty-sub">新しい情報が届きましたらこちらでご案内します</p>
+      </div>
+    ) : (
+      <ul class="list">
+        {newsList.map((news: any) => (
+          <li class="card">
+            <a href={`/news/${news.slug}`} class="card-link">
+              <span class="badge">{new Date(news.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span class="title">{news.title}</span>
+              <span class="arrow">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
 </Layout>
 
 <style>
-  .page-wrapper {
-    background-color: #F7FAF4;
-    min-height: 100vh;
-  }
-  .hero-banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7BAF55 60%, #A8CC80 100%);
-    padding: 64px 24px 56px;
+  .banner {
+    background: linear-gradient(135deg, #5C8A3C 0%, #7aad55 100%);
+    color: #fff;
     text-align: center;
+    padding: 3rem 1rem 2.5rem;
   }
-  .hero-inner {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-  .hero-sub {
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    color: rgba(255,255,255,0.75);
-    margin: 0 0 8px;
-    font-weight: 500;
-  }
-  .hero-title {
-    font-size: 2.2rem;
+  .banner h1 {
+    font-size: 2rem;
     font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 12px;
+    margin: 0 0 0.5rem;
     letter-spacing: 0.05em;
   }
-  .hero-desc {
+  .banner p {
     font-size: 0.95rem;
-    color: rgba(255,255,255,0.85);
+    opacity: 0.88;
     margin: 0;
   }
-  .main-content {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
+  .container {
+    max-width: 720px;
+    margin: 2.5rem auto 4rem;
+    padding: 0 1rem;
   }
-  .news-list {
+  .list {
     list-style: none;
-    margin: 0;
     padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
   }
-  .news-card {
-    background: #ffffff;
+  .card {
+    background: #fff;
+    border: 1px solid #d6e8c8;
     border-radius: 12px;
-    border: 1px solid #dcebd4;
-    transition: box-shadow 0.25s ease, transform 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
-  .news-card:hover {
-    box-shadow: 0 8px 28px rgba(92,138,60,0.18);
+  .card:hover {
+    box-shadow: 0 6px 20px rgba(92,138,60,0.18);
     transform: translateY(-2px);
   }
   .card-link {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 20px 24px;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
     text-decoration: none;
     color: inherit;
   }
-  .date-badge {
+  .badge {
     flex-shrink: 0;
-    background: #eef5e8;
+    background: #F7FAF4;
     color: #5C8A3C;
+    border: 1px solid #b8d9a0;
+    border-radius: 20px;
     font-size: 0.78rem;
     font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 999px;
-    letter-spacing: 0.03em;
+    padding: 0.25rem 0.75rem;
     white-space: nowrap;
   }
-  .card-title {
+  .title {
     flex: 1;
     font-size: 1rem;
-    font-weight: 600;
-    color: #2d4a1e;
+    color: #2d3a22;
+    font-weight: 500;
     line-height: 1.5;
   }
-  .card-arrow {
-    flex-shrink: 0;
+  .arrow {
     color: #5C8A3C;
-    font-size: 1.1rem;
-    transition: transform 0.2s;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
-  .news-card:hover .card-arrow {
-    transform: translateX(4px);
-  }
-  .empty-state {
+  .empty {
     text-align: center;
-    padding: 80px 24px;
-    background: #ffffff;
+    padding: 4rem 1rem;
+    background: #fff;
     border-radius: 16px;
-    border: 1px dashed #b5d49a;
+    border: 1px dashed #b8d9a0;
   }
   .empty-icon {
     font-size: 3rem;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
   .empty-title {
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: #5C8A3C;
-    margin: 0 0 8px;
+    margin: 0 0 0.5rem;
   }
-  .empty-desc {
+  .empty-sub {
     font-size: 0.9rem;
-    color: #7a9c65;
+    color: #7a9a6a;
     margin: 0;
   }
 </style>
