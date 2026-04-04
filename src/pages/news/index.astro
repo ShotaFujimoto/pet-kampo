@@ -17,21 +17,20 @@ if (existsSync(newsDir)) {
   .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 ---
-<Layout title="お知らせ | うちのこ漢方">
+<Layout title="お知らせ一覧 | うちのこ漢方">
   <div class="banner">
     <div class="banner-inner">
-      <span class="banner-leaf">🌿</span>
-      <h1>お知らせ</h1>
-      <p>うちのこ漢方からの最新情報をお届けします</p>
+      <p class="banner-sub">News</p>
+      <h1 class="banner-title">お知らせ</h1>
     </div>
   </div>
 
   <main class="main">
     {newsList.length === 0 ? (
       <div class="empty">
-        <div class="empty-icon">🍃</div>
-        <p class="empty-title">まだお知らせはありません</p>
-        <p class="empty-sub">新しい情報をお楽しみに</p>
+        <div class="empty-icon">🌿</div>
+        <p class="empty-title">現在お知らせはありません</p>
+        <p class="empty-desc">新しいお知らせが届いたらこちらに掲載されます。<br />またのご確認をお待ちしております。</p>
       </div>
     ) : (
       <ul class="list">
@@ -39,10 +38,10 @@ if (existsSync(newsDir)) {
           <li class="card">
             <a href={`/news/${news.slug}`} class="card-link">
               <span class="badge">
-                {new Date(news.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {new Date(news.date).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
               </span>
-              <h2 class="card-title">{news.title}</h2>
-              {news.category && <span class="tag">{news.category}</span>}
+              <span class="card-title">{news.title}</span>
+              <span class="arrow">→</span>
             </a>
           </li>
         ))}
@@ -53,35 +52,30 @@ if (existsSync(newsDir)) {
 
 <style>
   .banner {
-    background: linear-gradient(135deg, #5C8A3C 0%, #7aab55 60%, #a8cc80 100%);
-    padding: 3.5rem 1rem 3rem;
+    background: linear-gradient(135deg, #5C8A3C 0%, #7aad55 60%, #a8d080 100%);
+    padding: 64px 24px 48px;
     text-align: center;
+  }
+  .banner-sub {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    margin: 0 0 8px;
+    font-style: italic;
+  }
+  .banner-title {
     color: #fff;
-  }
-  .banner-inner {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-  .banner-leaf {
-    font-size: 2.2rem;
-  }
-  .banner h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin: 0.4rem 0 0.6rem;
-    letter-spacing: 0.08em;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  }
-  .banner p {
-    font-size: 1rem;
-    opacity: 0.9;
     margin: 0;
+    letter-spacing: 0.1em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.12);
   }
   .main {
     background: #F7FAF4;
     min-height: 60vh;
-    padding: 3rem 1rem 4rem;
-    max-width: 760px;
+    padding: 48px 24px 80px;
+    max-width: 720px;
     margin: 0 auto;
   }
   .list {
@@ -90,77 +84,72 @@ if (existsSync(newsDir)) {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 16px;
   }
   .card {
     background: #fff;
     border-radius: 12px;
-    border: 1px solid #ddecd4;
-    transition: box-shadow 0.22s, transform 0.22s;
+    border: 1px solid #ddecd3;
+    transition: box-shadow 0.25s, transform 0.2s;
   }
   .card:hover {
-    box-shadow: 0 8px 28px rgba(92,138,60,0.18);
+    box-shadow: 0 8px 24px rgba(92,138,60,0.18);
     transform: translateY(-2px);
   }
   .card-link {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1.2rem 1.5rem;
+    gap: 16px;
+    padding: 20px 24px;
     text-decoration: none;
     color: inherit;
-    flex-wrap: wrap;
   }
   .badge {
-    background: #eaf4e0;
-    color: #4a7230;
-    font-size: 0.8rem;
+    flex-shrink: 0;
+    background: #edf5e6;
+    color: #5C8A3C;
+    font-size: 0.78rem;
     font-weight: 600;
-    padding: 0.28rem 0.8rem;
+    padding: 4px 12px;
     border-radius: 999px;
-    white-space: nowrap;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
   }
   .card-title {
-    font-size: 1.05rem;
+    flex: 1;
+    font-size: 1rem;
     font-weight: 600;
     color: #2d4a1e;
-    margin: 0;
-    flex: 1;
     line-height: 1.5;
   }
-  .tag {
-    font-size: 0.75rem;
+  .arrow {
     color: #5C8A3C;
-    border: 1px solid #5C8A3C;
-    border-radius: 4px;
-    padding: 0.15rem 0.55rem;
-    white-space: nowrap;
+    font-size: 1rem;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .card:hover .arrow {
+    opacity: 1;
+    transform: translateX(4px);
   }
   .empty {
     text-align: center;
-    padding: 5rem 1rem;
-    color: #7aab55;
+    padding: 80px 24px;
   }
   .empty-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    animation: sway 3s ease-in-out infinite;
+    font-size: 3rem;
+    margin-bottom: 16px;
   }
   .empty-title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #4a7230;
-    margin: 0 0 0.4rem;
+    color: #5C8A3C;
+    margin: 0 0 12px;
   }
-  .empty-sub {
-    font-size: 0.95rem;
-    color: #8db870;
+  .empty-desc {
+    color: #6b8f55;
+    font-size: 0.92rem;
+    line-height: 1.8;
     margin: 0;
-  }
-  @keyframes sway {
-    0%,100% { transform: rotate(-6deg); }
-    50% { transform: rotate(6deg); }
   }
 </style>
 </html>
