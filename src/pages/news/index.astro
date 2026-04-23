@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 import { readFileSync, readdirSync, existsSync } from 'fs';
 import { parse } from 'yaml';
 import { join } from 'path';
@@ -16,260 +16,48 @@ if (existsSync(newsDir)) {
   .filter((n: any) => n.published)
   .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
+
 ---
-<Layout title="お知らせ一覧 | うちのこ漢方">
-  <div class="news-page">
+<Layout title="お知らせ">
 
-    <div class="page-banner">
-      <div class="banner-inner">
-        <div class="banner-leaf banner-leaf--left">🌿</div>
-        <div class="banner-content">
-          <h1 class="banner-title">お知らせ</h1>
-          <p class="banner-sub">うちのこ漢方からのご案内・最新情報</p>
-        </div>
-        <div class="banner-leaf banner-leaf--right">🌿</div>
+  <section class="py-24 px-4 sm:px-6 lg:px-8 bg-site min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="mb-12">
+        <nav class="flex items-center gap-2 text-sm text-gray-400 mb-6">
+          <a href="/" class="hover:text-gray-600 transition-colors">ホーム</a>
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+          <span class="text-gray-600">お知らせ</span>
+        </nav>
+        <h1 class="text-3xl sm:text-4xl font-bold font-heading text-gray-800 mb-4">お知らせ</h1>
+        <div class="w-16 h-1 rounded-full bg-main"></div>
       </div>
-      <div class="banner-wave">
-        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30 L1200,60 L0,60 Z" fill="#F7FAF4"/>
-        </svg>
+
+      <div class="space-y-3">
+        {newsList.length > 0 ? newsList.map((news: any) => (
+          <a
+            href={`/news/${news.slug}`}
+            class="flex items-center gap-4 p-5 bg-white rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-200 group"
+          >
+            <time class="shrink-0 text-sm text-gray-400 font-mono">{String(news.date)}</time>
+            <span class="flex-1 font-medium text-gray-800 group-main transition-colors">
+              {news.title}
+            </span>
+            <svg class="shrink-0 w-4 h-4 text-gray-300 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        )) : (
+          <div class="text-center py-20 text-gray-400">
+            <p class="text-5xl mb-4">📭</p>
+            <p class="text-lg">お知らせはまだありません</p>
+          </div>
+        )}
       </div>
-    </div>
-
-    <div class="news-container">
-
-      {newsList.length > 0 ? (
-        <ul class="news-list">
-          {newsList.map((news: any) => {
-            const dateObj = new Date(news.date);
-            const year = dateObj.getFullYear();
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            return (
-              <li class="news-item">
-                <a href={`/news/${news.slug}`} class="news-link">
-                  <span class="news-date">
-                    <span class="date-year">{year}</span>
-                    <span class="date-sep">.</span>
-                    <span class="date-md">{month}.{day}</span>
-                  </span>
-                  {news.category && (
-                    <span class="news-category">{news.category}</span>
-                  )}
-                  <span class="news-title">{news.title}</span>
-                  <span class="news-arrow">→</span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <div class="empty-state">
-          <div class="empty-icon">🌱</div>
-          <p class="empty-title">現在お知らせはありません</p>
-          <p class="empty-text">新しいお知らせがあれば、こちらに掲載いたします。</p>
-        </div>
-      )}
 
     </div>
-  </div>
+  </section>
 
-  <style>
-    .news-page {
-      background-color: #F7FAF4;
-      min-height: 60vh;
-    }
-
-    /* バナー */
-    .page-banner {
-      position: relative;
-      background: linear-gradient(135deg, #5C8A3C 0%, #4a7230 50%, #6a9e48 100%);
-      padding: 56px 24px 72px;
-      text-align: center;
-      overflow: hidden;
-    }
-    .page-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.07) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05) 0%, transparent 40%);
-    }
-    .banner-inner {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-    }
-    .banner-leaf {
-      font-size: 2rem;
-      opacity: 0.6;
-    }
-    .banner-leaf--left { transform: scaleX(-1); }
-    .banner-content { text-align: center; }
-    .banner-title {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.12em;
-      margin: 0 0 8px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-    .banner-sub {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.85);
-      letter-spacing: 0.06em;
-      margin: 0;
-    }
-    .banner-wave {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40px;
-      line-height: 0;
-    }
-    .banner-wave svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* コンテナ */
-    .news-container {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 48px 24px 80px;
-    }
-
-    /* 記事リスト */
-    .news-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border-top: 1px solid #d4e8c4;
-    }
-    .news-item {
-      border-bottom: 1px solid #d4e8c4;
-    }
-    .news-link {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 12px;
-      text-decoration: none;
-      color: inherit;
-      transition: background-color 0.2s ease, padding-left 0.2s ease;
-      border-radius: 4px;
-    }
-    .news-link:hover {
-      background-color: #edf5e6;
-      padding-left: 20px;
-    }
-    .news-link:hover .news-arrow {
-      transform: translateX(4px);
-      color: #5C8A3C;
-    }
-
-    /* 日付 */
-    .news-date {
-      display: flex;
-      align-items: baseline;
-      gap: 2px;
-      flex-shrink: 0;
-      min-width: 110px;
-    }
-    .date-year {
-      font-size: 0.78rem;
-      color: #8aab70;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-    }
-    .date-sep {
-      font-size: 0.78rem;
-      color: #8aab70;
-    }
-    .date-md {
-      font-size: 0.95rem;
-      color: #5C8A3C;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-
-    /* カテゴリ */
-    .news-category {
-      flex-shrink: 0;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #5C8A3C;
-      background: #e0f0d0;
-      border: 1px solid #b8d9a0;
-      border-radius: 20px;
-      padding: 2px 10px;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-
-    /* タイトル */
-    .news-title {
-      flex: 1;
-      font-size: 0.97rem;
-      color: #2d4a1e;
-      font-weight: 500;
-      line-height: 1.5;
-      letter-spacing: 0.02em;
-    }
-
-    /* 矢印 */
-    .news-arrow {
-      flex-shrink: 0;
-      font-size: 1rem;
-      color: #a8c890;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-
-    /* 空状態 */
-    .empty-state {
-      text-align: center;
-      padding: 72px 24px;
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px dashed #b8d9a0;
-    }
-    .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 16px;
-    }
-    .empty-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #5C8A3C;
-      margin: 0 0 8px;
-    }
-    .empty-text {
-      font-size: 0.88rem;
-      color: #7a9e60;
-      margin: 0;
-      line-height: 1.7;
-    }
-
-    /* レスポンシブ */
-    @media (max-width: 600px) {
-      .news-link {
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .news-date {
-        min-width: auto;
-      }
-      .news-arrow {
-        display: none;
-      }
-    }
-  </style>
 </Layout>
-</html>
